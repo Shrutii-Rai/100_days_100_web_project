@@ -36,12 +36,16 @@ jobs:
                   name: label
                 });
               } catch (e) {
-                await github.rest.issues.createLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  name: label,
-                  color: "e4e669"
-                });
+                if (e.status === 404) {
+                  await github.rest.issues.createLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: label,
+                    color: "e4e669"
+                  });
+                } else {
+                  core.warning(`Unexpected error checking label "${label}": ${e.message}`);
+                }
               }
             }
             await github.rest.issues.addLabels({
