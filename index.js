@@ -21,6 +21,7 @@ async function fetchRepoStats() {
         const forkEl = document.getElementById('forkCount');
         const issueEl = document.getElementById('issueCount');
         const prEl = document.getElementById('prCount');
+        
 
         if (starEl) starEl.textContent = repoData.stargazers_count.toLocaleString();
         if (forkEl) forkEl.textContent = repoData.forks_count.toLocaleString();
@@ -423,7 +424,55 @@ function filterProjects() {
     }
 }
 
+
+// Search on Enter key
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            filterProjects();
+        }
+    });
+}
+// Word and Character Count
+        const inputField = document.querySelector('input'); // Use the correct selector for the search bar
+        const wordDisplay = document.getElementById('wordCount');
+        const charDisplay = document.getElementById('charCount');
+
+inputField.addEventListener('input', () => {
+        const value = inputField.value.trim();
+        
+        // Count characters
+        charDisplay.innerText = value.length;
+
+        // Count words
+        const words = value ? value.split(/\s+/).length : 0;
+        wordDisplay.innerText = words;
+    });
+
+// Scroll to Top Button
+const scrollBtn = document.getElementById('scrollBtn');
+if (scrollBtn) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+            scrollBtn.classList.add('show');
+        } else {
+            scrollBtn.classList.remove('show');
+        }
+    });
+
+    scrollBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+}
+
+// Initialize on DOM Load
+
 // Global initialization sequence
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchRepoStats();
     initCanvas();
