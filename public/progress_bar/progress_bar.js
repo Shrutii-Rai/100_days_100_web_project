@@ -36,7 +36,16 @@ button.className = "restart";
         return;
     }
     progress.style.background = `conic-gradient(#52c234 ${start * 3.6}deg, #061700 ${start * 3.6}deg, #52c234 ${start * 3.6}deg, white ${0}deg)`;
+    progress.style.background = `conic-gradient(#52c234 ${start * 3.6}deg, white 0deg)`;
     value.textContent = `${start}%`;
+    
+    if (start >= end) { 
+        clearInterval(timer); 
+        isRunning = false; 
+        start = 0; 
+        return; 
+    }
+    
     start++;
 }
 
