@@ -1,9 +1,8 @@
 *{
-    margin: 0;
-    font-family: Arial;
-    box-sizing: border-box;
+   margin:0;
+   padding:0;
+   box-sizing:border-box;
 }
-
 .navbar{
     height: 60px;
     background-color: #0f1111;
@@ -29,7 +28,7 @@
     border: 2px solid transparent;
 }
 .border:hover{
-    border: 1.5px solid white;
+   outline:1.5px solid white;
 
 }
 
@@ -182,6 +181,13 @@ span{
     margin-top: 15px;
 
 }
+.box{
+   transition: transform 0.3s ease;
+}
+
+.box:hover{
+   transform: translateY(-5px);
+}
 
 .box-img {
     height:300px ;
@@ -290,10 +296,6 @@ ul a {
 
 }
 
-
-/* =========================
-RESPONSIVE DESIGN
-========================= */
 
 /* Tablet Devices */
 @media screen and (max-width: 1024px) {
@@ -523,4 +525,20 @@ RESPONSIVE DESIGN
     font-size: 0.65rem;
 }
 
+}
+@media(max-width:768px){
+
+   .navbar{
+      flex-direction:column;
+      height:auto;
+   }
+
+   .shop-section{
+      flex-direction:column;
+      align-items:center;
+   }
+
+   .box{
+      width:90%;
+   }
 }
