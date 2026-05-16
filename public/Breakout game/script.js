@@ -111,9 +111,11 @@ function moveBall() {
     if (ball.x + ball.size > canvas.width || ball.x - ball.size < 0) {
         ball.dx *= -1;
     }
+
     if (ball.y - ball.size < 0) {
         ball.dy *= -1;
     }
+
     if (
         ball.x - ball.size > paddle.x &&
         ball.x + ball.size < paddle.x + paddle.w &&
@@ -121,19 +123,24 @@ function moveBall() {
     ) {
         ball.dy = -ball.speed;
     }
+
     bricks.forEach((column) => {
         column.forEach((brick) => {
             if (brick.visible) {
                 if (
-                    ball.x - ball.size > brick.x && 
-                    ball.x + ball.size < brick.x + brick.w && 
-                    ball.y + ball.size > brick.y && 
-                    ball.y - ball.size < brick.y + brick.h 
+                    ball.x - ball.size > brick.x &&
+                    ball.x + ball.size < brick.x + brick.w &&
+                    ball.y + ball.size > brick.y &&
+                    ball.y - ball.size < brick.y + brick.h
                 ) {
-                    ball.dy *= -1; 
+                    ball.dy *= -1;
                     brick.visible = false;
+
                     increaseScore();
-                    currentBrickColor = getRandomColor(); 
+                    checkWin();
+
+                    currentBrickColor = getRandomColor();
+
                     bricks.forEach((col) => {
                         col.forEach((b) => {
                             b.color = currentBrickColor;
@@ -143,9 +150,10 @@ function moveBall() {
             }
         });
     });
+
     if (ball.y + ball.size > canvas.height) {
-    showGameOver();
-}
+        showGameOver();
+    }
 }
 
 
@@ -161,6 +169,35 @@ function showAllBricks() {
     bricks.forEach((column) => {
         column.forEach((brick) => (brick.visible = true));
     });
+}
+
+function checkWin() {
+    const allBricksBroken = bricks.every((column) =>
+        column.every((brick) => !brick.visible)
+    );
+
+    if (allBricksBroken) {
+        gameRunning = false;
+
+        document
+            .getElementById("game-over-container")
+            .classList.remove("hidden");
+
+        document.querySelector(
+            ".game-over-content h2"
+        ).innerText = "You Win! 🎉";
+
+        document.getElementById("final-score").innerText = score;
+
+        if (score > highScore) {
+            highScore = score;
+
+            localStorage.setItem("highScore", highScore);
+        }
+
+        document.getElementById("high-score").innerText =
+            highScore;
+    }
 }
 
 function keyDown(e) {
@@ -198,12 +235,14 @@ function startGame() {
         .getElementById("game-over-container")
         .classList.add("hidden");
 
+    document.querySelector(".game-over-content h2").innerText = "Game Over";
+
     resetGame();
+
     document.getElementById("high-score").innerText = highScore;
 
     if (!gameRunning) {
-        gameRunning = true;
-        update();
+        startCountdown();
     }
 }
 
@@ -221,7 +260,10 @@ function resetGame() {
     paddle.x = canvas.width / 2 - 40;
 
     resetBricks();
+
     document.getElementById("final-score").innerText = 0;
+
+    draw();
 }
 
 function resetBricks() {
@@ -258,3 +300,31 @@ function getRandomColor() {
 
 document.getElementById("start-btn").addEventListener("click", startGame);
 document.getElementById("restart-btn").addEventListener("click", startGame);
+
+function startCountdown() {
+    const countdownEl = document.getElementById("countdown");
+
+    countdownEl.classList.remove("hidden");
+
+    let count = 3;
+
+    countdownEl.innerText = count;
+
+    const timer = setInterval(() => {
+        count--;
+
+        if (count > 0) {
+            countdownEl.innerText = count;
+        } else if (count === 0) {
+            countdownEl.innerText = "GO!";
+        } else {
+            clearInterval(timer);
+
+            countdownEl.classList.add("hidden");
+
+            gameRunning = true;
+
+            update();
+        }
+    }, 1000);
+}
