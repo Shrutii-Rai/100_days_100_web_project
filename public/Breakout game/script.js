@@ -3,6 +3,8 @@ const ctx = canvas.getContext("2d");
 const color = getComputedStyle(document.documentElement).getPropertyValue("--button-color");
 const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue("--sidebar-color");
 let score = 0;
+let highScore = localStorage.getItem("highScore") || 0;
+let gameRunning = false;
 const brickRowCount = 9;
 const brickColumnCount = 5;
 const heightRatio = 0.75;
@@ -142,8 +144,8 @@ function moveBall() {
         });
     });
     if (ball.y + ball.size > canvas.height) {
-        resetGame(); //
-    }
+    showGameOver();
+}
 }
 
 
@@ -161,10 +163,6 @@ function showAllBricks() {
     });
 }
 
-function showGameOver() {
-    resetGame();
-    update();
-}
 function keyDown(e) {
     if (e.key === "Right" || e.key === "ArrowRight") paddle.dx = paddle.speed;
     else if (e.key === "Left" || e.key === "ArrowLeft") paddle.dx = -paddle.speed;
@@ -185,7 +183,9 @@ function update() {
     movePaddle();
     moveBall();
     draw();
+    if (gameRunning) {
     requestAnimationFrame(update);
+}
 }
 
 document.addEventListener("keydown", keyDown);
@@ -193,18 +193,35 @@ document.addEventListener("keyup", keyUp);
 
 function startGame() {
     document.getElementById("rules-container").style.display = "none";
+
+    document
+        .getElementById("game-over-container")
+        .classList.add("hidden");
+
     resetGame();
-    update();
+    document.getElementById("high-score").innerText = highScore;
+
+    if (!gameRunning) {
+        gameRunning = true;
+        update();
+    }
 }
 
 function resetGame() {
     score = 0;
+
     ball.x = canvas.width / 2;
     ball.y = canvas.height / 2;
-    ball.speed = initialBallSpeed; 
+
+    ball.speed = initialBallSpeed;
+
     ball.dx = ball.speed;
-    ball.dy = -ball.speed; 
+    ball.dy = -ball.speed;
+
+    paddle.x = canvas.width / 2 - 40;
+
     resetBricks();
+    document.getElementById("final-score").innerText = 0;
 }
 
 function resetBricks() {
@@ -214,8 +231,20 @@ function resetBricks() {
 }
 
 function showGameOver() {
-    resetGame();  
-    update();  
+    gameRunning = false;
+
+    document
+        .getElementById("game-over-container")
+        .classList.remove("hidden");
+
+    document.getElementById("final-score").innerText = score;
+
+    if (score > highScore) {
+        highScore = score;
+        localStorage.setItem("highScore", highScore);
+    }
+
+    document.getElementById("high-score").innerText = highScore;
 }
 
 function getRandomColor() {
