@@ -1059,9 +1059,10 @@ function renderBookmarks() {
 
            <div class="card-footer">
 
-    <a href="${url}"
-       target="_blank"
-       class="card-link">
+   <a href="${url}"
+   target="_blank"
+   class="card-link open-project"
+   data-id="${day}">
 
         View Demo
         <i class="fas fa-arrow-right"></i>
@@ -1216,6 +1217,8 @@ document.addEventListener('click', (e) => {
   const projectDay = projectLink.dataset.id;
 
   const project = PROJECTS.find((item) => item[0] === projectDay);
+
+  if (!project) return;
 
   trackRecentProject(project);
 });
