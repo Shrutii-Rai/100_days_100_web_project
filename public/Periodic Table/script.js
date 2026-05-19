@@ -140,7 +140,6 @@ elements.forEach(el => {
     }
 });
 
-
 const container = document.querySelector(".table-container");
 const totalGroups = 18; 
 const totalPeriods = 7; 
