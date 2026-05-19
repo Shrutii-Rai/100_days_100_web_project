@@ -820,8 +820,9 @@ const PROJECT_DATA = [
     'javascript game',
     'intermediate'
   ],
+
   [
-    'Day 119', 
+    'Day 120', 
     'Typing Speed Test', 
     './public/typing_test/index.html', 
     'javascript', 
