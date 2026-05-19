@@ -160,8 +160,12 @@ jobs:
               )
           )
           def normalize_cell_html(cell):
-              lines = [line.strip() for line in cell.strip().splitlines() if line.strip()]
-              return "\n".join(lines)
+              normalized_lines = []
+              for line in cell.strip().splitlines():
+                  stripped_line = line.strip()
+                  if stripped_line:
+                      normalized_lines.append(stripped_line)
+              return "\n".join(normalized_lines)
 
           sorted_cells = [normalize_cell_html(item[2]) for item in contributors]
 
