@@ -23,7 +23,7 @@ const PROJECT_DATA = [
   ['Day 4', 'Dropdown Nav Bar', './public/dropdown_navbar/index.html', 'css', 'beginner'],
   ['Day 5', 'Animated Cursor', './public/Animated-cursor/animated-cursor.html', 'ui javascript css', 'beginner'],
   ['Day 6', 'Auto Background Image Slider', './public/Background-Image-sider/slider.html', 'javascript', 'beginner'],
-  ['Day 7', 'Typewriter', './public/typewriter/typewriter.html', 'javascript', 'beginner'],
+  ['Day 7', 'Typewriter', './public/typewriter/typewriter.html', 'html css javascript', 'advanced'],
   ['Day 8', 'Parallel-X Website', './public/Parallel-x%20website/parallal.html', 'css', 'intermediate'],
   ['Day 9', 'Captcha Generator', './public/captcha/captcha.html', 'javascript', 'intermediate'],
   ['Day 10', 'QR Code Generator', './public/qr%20generator/qr.html', 'api javascript', 'intermediate'],
@@ -143,7 +143,6 @@ const PROJECT_DATA = [
   ['Day 124', 'Hurdle Highway 2D',   './public/Hurdle_Highway_2D/index.html', 'game', 'intermediate'],
   ['Day 125', 'Snakeladder',   './public/Snakeladder/index.html', 'game', 'intermediate'],
   ['Day 126', 'Temperature Converter', './public/TemperatureConverter/index.html', 'tool javascript', 'beginner'],
-  ['Day 127', 'Reaction Time Tester', './public/reaction-time-tester/main.html', 'game', 'intermediate'],
 
 ];
 
@@ -234,27 +233,48 @@ function renderGrid() {
   if (!grid) return;
 
   // Dynamically set items per page based on viewport width to match CSS column layouts synchronously
-
   const width = window.innerWidth || document.documentElement.clientWidth || screen.width;
-
   if (width <= 768) {
-
-    itemsPerPage = 6; // Mobile
-
+    itemsPerPage = 6; // Mobile (1 column x 6 rows = 6 total)
   } else if (width <= 1024) {
-
-    itemsPerPage = 6; // Tablet
-
+    itemsPerPage = 6; // Tablet (2 columns x 3 rows = 6 total, no hanging cards!)
   } else {
-
-    itemsPerPage = 9; // Desktop
-
+    itemsPerPage = 9; // Laptop & Desktop (3 columns x 3 rows = 9 total)
   }
-  
-  const filtered = PROJECTS.filter(([day, name, ,tags, cat]) => {
-    const matchesFilter = activeFilter === 'all' || tags.toLowerCase().includes(activeFilter.toLowerCase());
-    const q = searchQuery.toLowerCase();
-    const matchesSearch = !q || name.toLowerCase().includes(q) || day.toLowerCase().includes(q);
+
+  // Filter projects by matching category chip and multi-term keyword search query
+  const filtered = PROJECTS.filter(([day, name, url, tags, cat]) => {
+    const matchesFilter = activeFilter === 'all' || (() => {
+      const tagStr = (typeof tags === 'string' ? tags : '').toLowerCase();
+      const nameStr = name.toLowerCase();
+      const urlStr = url.toLowerCase();
+
+      if (activeFilter === 'game') {
+        return tagStr.includes('game') || tagStr.includes('canvas');
+      }
+      if (activeFilter === 'clone') {
+        return nameStr.includes('clone') || urlStr.includes('clone') || urlStr.includes('cloning');
+      }
+      if (activeFilter === 'tool') {
+        return tagStr.includes('tool') || tagStr.includes('todo') || tagStr.includes('calculator') || tagStr.includes('weather') || nameStr.includes('tracker') || nameStr.includes('generator') || nameStr.includes('converter') || nameStr.includes('validator') || nameStr.includes('saver') || nameStr.includes('utils');
+      }
+      if (activeFilter === 'ui') {
+        return tagStr.includes('css') || tagStr.includes('canvas') || tagStr.includes('animation') || nameStr.includes('animation') || nameStr.includes('cursor') || nameStr.includes('effect') || nameStr.includes('slider');
+      }
+      if (activeFilter === 'api') {
+        return tagStr.includes('api') || tagStr.includes('weather') || nameStr.includes('api') || nameStr.includes('fetch');
+      }
+      return false;
+    })();
+
+    // Split search query by spaces to support multi-term criteria (e.g. "day 1 todo")
+    const q = searchQuery.toLowerCase().trim();
+    const matchesSearch = !q || q.split(/\s+/).every(term => 
+      name.toLowerCase().includes(term) || 
+      day.toLowerCase().includes(term) || 
+      (typeof tags === 'string' && tags.toLowerCase().includes(term))
+    );
+
     return matchesFilter && matchesSearch;
   });
 
@@ -683,12 +703,19 @@ function updateNavbar() {
   const container = document.getElementById('navButtons');
   if (!container) return;
 
-  const username = window.username || null;
-  const isRoot = !window.location.pathname.includes('/contributors/');
-  const base = isRoot ? '' : '../';
+    const username = window.username || null;
+    const isRoot   = !window.location.pathname.includes('/contributors/');
+    const base     = isRoot ? '' : '../';
+    const isLight  = document.body.classList.contains('light-mode');
+    const themeButton = `
+            <button class="btn btn-ghost btn-sm" id="themeToggleNav" aria-label="Toggle theme">
+                <i class="fas ${isLight ? 'fa-sun' : 'fa-moon'}"></i>
+            </button>
+        `;
 
-  if (username) {
-    container.innerHTML = `
+    if (username) {
+        container.innerHTML = `
+            ${themeButton}
             <span class="welcome-text">Hi, ${username}</span>
             <button class="btn btn-ghost btn-sm" id="logoutBtn">Log out</button>
             <button class="btn btn-ghost btn-sm" id="generateReadmeBtn">Generate README</button>
@@ -697,14 +724,15 @@ function updateNavbar() {
             </a>
             <a class="btn btn-ghost btn-sm" href="${base}contributors/contributor.html">Contributors</a>
         `;
-    document.getElementById('logoutBtn').addEventListener('click', () => {
-      window.username = null;
-      updateNavbar();
-    });
-    const gen = document.getElementById('generateReadmeBtn');
-    if (gen) gen.addEventListener('click', generateReadme);
-  } else {
-    container.innerHTML = `
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            window.username = null;
+            updateNavbar();
+        });
+        const gen = document.getElementById('generateReadmeBtn');
+        if (gen) gen.addEventListener('click', generateReadme);
+    } else {
+        container.innerHTML = `
+            ${themeButton}
             <a class="btn btn-ghost btn-sm" href="${base}contributors/contributor.html">Contributors</a>
             <a class="btn btn-ghost btn-sm" href="https://github.com/dhairyagothi" target="_blank">
                 <i class="fab fa-github"></i> GitHub
@@ -721,23 +749,37 @@ function updateNavbar() {
    THEME TOGGLE
    ============================================================ */
 function initTheme() {
-  const btn = document.getElementById('themeToggle');
-  if (!btn) return;
+    const saved = localStorage.getItem('theme') || 'dark';
+    let transitionTimer = null;
 
-  const icon = btn.querySelector('i');
-  const saved = localStorage.getItem('theme') || 'dark';
+    const syncThemeIcons = () => {
+        const isLight = document.body.classList.contains('light-mode');
+        const iconClass = isLight ? 'fas fa-sun' : 'fas fa-moon';
+        document.querySelectorAll('#themeToggle i, #themeToggleNav i').forEach(icon => {
+            icon.className = iconClass;
+        });
+    };
 
-  if (saved === 'light') {
-    document.body.classList.add('light-mode');
-    if (icon) icon.className = 'fas fa-sun';
-  }
+    if (saved === 'light') {
+        document.body.classList.add('light-mode');
+    }
+    syncThemeIcons();
 
-  btn.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    const isLight = document.body.classList.contains('light-mode');
-    if (icon) icon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
-    localStorage.setItem('theme', isLight ? 'light' : 'dark');
-  });
+    document.body.addEventListener('click', (e) => {
+        const target = e.target.closest('#themeToggle') || e.target.closest('#themeToggleNav');
+        if (!target) return;
+
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        syncThemeIcons();
+
+        document.body.classList.add('theme-transitioning');
+        if (transitionTimer) clearTimeout(transitionTimer);
+        transitionTimer = setTimeout(() => {
+            document.body.classList.remove('theme-transitioning');
+        }, 400);
+    });
 }
 
 /* ============================================================
@@ -791,23 +833,6 @@ document.addEventListener('DOMContentLoaded', () => {
   renderRecentProjects();
   fetchRepoStats();
   initScrollBtn();
-});
-
-const backToTopButton = document.getElementById("backToTop");
-
-window.addEventListener("scroll", () => {
-    if (window.scrollY > 200) {
-        backToTopButton.style.display = "block";
-    } else {
-        backToTopButton.style.display = "none";
-    }
-});
-
-backToTopButton.addEventListener("click", () => {
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-    });
 });
 
 // Re-render the grid when the browser window is resized to adapt pagination density instantly
