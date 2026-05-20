@@ -461,6 +461,20 @@ body.light .select-field{
   background:#f3f4f6;
   color:#111827;
 }
+.row :where(input, textarea):focus { border-color: #00f2fe; background: rgba(0, 0, 0, 0.3); }
+
+/* Description expands to fill square */
+.main-desc-row { flex: 1; display: flex; flex-direction: column; }
+.row textarea { flex: 1; resize: none; line-height: 1.6; min-height: 150px; }
+
+.read-only :where(input, textarea) { border-color: transparent !important; background: transparent !important; pointer-events: none; }
+
+.footer-buttons { margin-top: 20px; display: flex; gap: 12px; justify-content: flex-end; }
+button { padding: 12px 24px; border-radius: 12px; border: none; cursor: pointer; font-weight: 700; transition: 0.3s; font-size: 14px; }
+
+.primary-btn { background: linear-gradient(to right, #00f2fe, #4facfe); color: #16213e; }
+.secondary-btn { background: transparent; border: 1.5px solid #00f2fe; color: #00f2fe; }
+.danger-btn { background: rgba(255, 77, 77, 0.1); border: 1.5px solid #ff4d4d; color: #ff4d4d; }
 
 body.light .welcome p{
   color:#374151;
