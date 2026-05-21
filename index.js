@@ -26,13 +26,13 @@ const PROJECT_DATA = [
   ['Day 7', 'Typewriter', './public/typewriter/typewriter.html', 'html css javascript', 'advanced'],
   ['Day 8', 'Parallel-X Website', './public/Parallel-x%20website/parallal.html', 'css', 'intermediate'],
   ['Day 9', 'Captcha Generator', './public/captcha/captcha.html', 'javascript', 'intermediate'],
-  ['Day 10', 'QR Code Generator', './public/qr%20generator/qr.html', 'api javascript', 'intermediate'],
+  ['Day 10', 'QR Code Generator', './public/qr_generator/qr.html', 'api javascript', 'intermediate'],
   ['Day 11', 'Serve Website Using Express', './public/index.html', 'javascript', 'intermediate'],
   ['Day 12', 'Nodemailer Contact Form', './public/gmail_nodemailer/public/mail.html', 'api javascript', 'intermediate'],
   ['Day 13', 'Login Form Using MERN', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/loginusingmern', 'api javascript', 'intermediate'],
   ['Day 14', 'File Uploader', 'https://github.com/dhairyagothi/100_days_100_web_project/tree/Main/public/file_uploader', 'javascript', 'intermediate'],
   ['Day 15', 'Progress Bar', './public/progress_bar/progress_bar.html', 'ui css javascript', 'beginner'],
-  ['Day 16', 'Scroll Bar CSS', './public/Scroll Game Dark Run/index.html', 'css', 'beginner'],
+  ['Day 16', 'Scroll Bar CSS', './public/Custom Scroll Bar/index.html', 'css', 'beginner'],
   ['Day 17', 'Slider Using Swiper API', './public/slider%20box/index.html', 'api javascript', 'intermediate'],
   ['Day 18', 'Carousel Solar System', './public/carousal/index.html', 'css canvas', 'intermediate'],
   ['Day 19', 'Planto', './public/plantwebsite/plant.html', 'css', 'beginner'],
@@ -123,7 +123,7 @@ const PROJECT_DATA = [
   ['Day 104', 'Debug-Website', './public/Debug-Website/index.html', 'css', 'beginner'],
   ['Day 105', 'Periodic Table', './public/Periodic Table/index.html', 'css javascript', 'beginner'],
   ['Day 106', 'Plants Website', './public/Plants Website/index.html', 'css', 'beginner'],
-  ['Day 107', 'DocNow', './public/DocNow/index.html', 'api javascript', 'intermediate'],
+['Day 107', 'DocNow', './public/DocNow/', 'api javascript', 'intermediate'],
   ['Day 108', 'expense_Tracker', './public/expense_Tracker/index.html', 'todo javascript', 'intermediate'],
   ['Day 109', 'Mood Tracker', './public/Mood Tracker/index.html', 'todo javascript', 'intermediate'],
   ['Day 110', 'CRYPTOSHOW', './public/CRYPTOSHOW/index.html', 'api javascript', 'intermediate'],
@@ -132,7 +132,7 @@ const PROJECT_DATA = [
   ['Day 113', 'CPU Scheduler', './public/CpuScheduler/index.html', 'tool javascript', 'intermediate'],
   ['Day 114', 'EchoNotes', './public/EchoNotes/index.html', 'todo javascript', 'intermediate'],
   ['Day 115', 'Event Registration System', 'https://event-registration-system-w10a.onrender.com/', 'api javascript', 'intermediate'],
-  ['Day 116', 'AI Image Classifier', './public/AI Image Classifier/index.html', 'api javascript', 'intermediate'],
+['Day 116', 'AI Image Classifier', './public/AI Image Classifier/', 'api javascript', 'intermediate'],
   ['Day 117', 'Habit Tracker Web App', './public/Habit-Tracker-Web-App/index.html', 'ui tool html css js', 'intermediate'],
   ['Day 118', 'Particle Effect', './public/particle-effect/index.html', 'ui html css js canvas', 'intermediate'],
   ['Day 119', 'Virtual Playground', './playground.html', 'ui game html css js', 'intermediate'],
@@ -141,14 +141,17 @@ const PROJECT_DATA = [
   ['Day 122', 'AstronomyDashboard', './public/AstronomyDashboard/astro.html','html css javascript api-javascript','Advanced'],
   ['Day 123', 'Pomodoro Timer', './public/Pomodoro_Timer/index.html', 'productivity tool', 'intermediate'],
   ['Day 124', 'Hurdle Highway 2D',   './public/Hurdle_Highway_2D/index.html', 'game', 'intermediate'],
-  ['Day 125', 'Snakeladder',   './public/Snakeladder/index.html', 'game', 'intermediate'],
+  ['Day 125', 'Snakeladder',   './public/snakeladder/index.html', 'game', 'intermediate'],
   ['Day 126', 'Temperature Converter', './public/TemperatureConverter/index.html', 'tool javascript', 'beginner'],
   ['Day 127', 'Particle Wave Animation', './public/Particle Wave Animation/index.html', 'css javascript', 'intermediate'],
   ['Day 128', 'Reaction Time Test', './public/reaction-time-tester/main.html', 'animation simulation html css js javascript', 'intermediate'],
   ['Day 129', 'YouTube Clone', './public/youtube clone/index.html', 'Html CSS', 'beginner'],
   ['Day 130', 'Dino Game', './public/DinoGame/DinoGame-main/index.html', 'game javascript', 'beginner'],
-
-   
+  ["Day 131", "Retro Highway Racer", "/public/RetroHighwayRacer/index.html", 'game javascript', 'intermediate'],
+  ['Day 132', 'Pokedex', './public/Pokedex/index.html', 'utility', 'intermediate'],
+  ['Day 133', 'Stock Market Simulator', './public/stock-market-simulator/index.html', 'simulator', 'intermediate'],
+  ['Day 134', 'Coin Scratch', './public/Coin Scratch/index.html', 'asmr game', 'intermediate'],
+   ['Day 135', 'Shooting game', './public/shooting game/index.html', '2d game', 'intermediate'],
 ];
 
 // Alias for consistency
@@ -714,6 +717,7 @@ function initFilterChips() {
 function initSearch() {
   const input = document.getElementById('searchInput');
   if (!input) return;
+
   input.addEventListener('input', () => {
     searchQuery = input.value.trim();
     currentPage = 1;
@@ -721,19 +725,47 @@ function initSearch() {
   });
 }
 
+initSearch(); // 
+
+const searchInput = document.getElementById('searchInput');
+const clearBtn = document.getElementById("clearSearch");
+
 function syncProjectCounts() {
   const total = PROJECTS.length.toLocaleString();
-  const countNodes = [document.getElementById('projectCount'), document.getElementById('allCount')];
+
+  const countNodes = [
+    document.getElementById('projectCount'),
+    document.getElementById('allCount')
+  ];
 
   countNodes.forEach((node) => {
     if (node) node.textContent = total;
   });
 
-  const searchInput = document.getElementById('searchInput');
   if (searchInput) {
     searchInput.placeholder = `Search ${total} projects…`;
   }
 }
+
+// Clear button functionality
+if (searchInput && clearBtn) {
+  clearBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    searchInput.dispatchEvent(new Event("input"));
+    searchInput.focus();
+  });
+
+  searchInput.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      searchInput.value = "";
+      searchInput.dispatchEvent(new Event("input"));
+      searchInput.focus();
+    }
+  });
+}
+
+// initialize
+syncProjectCounts();
 
 /* ============================================================
    NAVBAR — dynamic based on login state
@@ -825,16 +857,27 @@ function initTheme() {
    SCROLL TO TOP
    ============================================================ */
 function initScrollBtn() {
-  const btn = document.getElementById('scrollBtn');
-  if (!btn) return;
+    const btn = document.getElementById('scrollBtn');
+    const ring = document.getElementById('ringFill');
+    if (!btn) return;
 
-  window.addEventListener('scroll', () => {
-    btn.classList.toggle('show', window.scrollY > 400);
-  });
+    const circumference = 2 * Math.PI * 22;
 
-  btn.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.scrollY;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+
+        btn.classList.toggle('show', scrollTop > 400);
+
+        if (ring) {
+            ring.style.strokeDashoffset = circumference * (1 - progress);
+        }
+    });
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
 }
 
 /* ============================================================
