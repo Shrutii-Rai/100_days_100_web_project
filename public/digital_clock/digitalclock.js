@@ -207,8 +207,6 @@ function stopRinger() {
   clearInterval(ringInterval);
 }
 
-// ================= WORLD CLOCK DASHBOARD =================
-
 function toggleWorldClockModal() {
   if (worldModal.classList.contains("hidden")) {
     worldModal.classList.remove("hidden");
@@ -376,7 +374,6 @@ function addHistoryLog(text) {
   localStorage.setItem("clock_historyLogs", JSON.stringify(historyLogs));
 }
 
-// ================= PLACEHOLDERS =================
 function populateTimezoneDropdown() {
   const container = document.getElementById("tz-options-list");
   if (!container) return;
