@@ -1998,6 +1998,212 @@ categorySelect.addEventListener("change", (e) => {
         firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 });
+const trendDefinitions={
+
+mass:{
+
+title:
+"Atomic Mass",
+
+description:
+"Average mass of protons and neutrons in an atom."
+
+},
+
+electronegativity:{
+
+title:
+"Electronegativity",
+
+description:
+"Ability of an atom to attract bonding electrons."
+
+},
+
+atomicRadius:{
+
+title:
+"Atomic Radius",
+
+description:
+"Distance between nucleus and outermost electron shell."
+
+},
+
+ionizationEnergy:{
+
+title:
+"Ionization Energy",
+
+description:
+"Energy required to remove an electron from an atom."
+
+}
+
+};
+
+const trendLinks={
+
+electronegativity:
+"https://en.wikipedia.org/wiki/Electronegativity",
+
+atomicRadius:
+"https://en.wikipedia.org/wiki/Atomic_radius",
+
+ionizationEnergy:
+"https://en.wikipedia.org/wiki/Ionization_energy",
+
+mass:
+"https://en.wikipedia.org/wiki/Atomic_mass"
+
+};
+
+const trendAnalysis={
+
+electronegativity:{
+
+period:
+"↑ Increases across periods",
+
+group:
+"↓ Decreases down groups",
+
+reason:
+"Effective nuclear charge increases causing stronger electron attraction.",
+
+example:
+"F > O > N"
+
+},
+
+atomicRadius:{
+
+period:
+"↓ Decreases across periods",
+
+group:
+"↑ Increases down groups",
+
+reason:
+"Extra shells enlarge atoms down groups.",
+
+example:
+"Cs > K > Na"
+
+},
+
+ionizationEnergy:{
+
+period:
+"↑ Increases across periods",
+
+group:
+"↓ Decreases down groups",
+
+reason:
+"Smaller atoms hold electrons more strongly.",
+
+example:
+"Ne > F > O"
+
+},
+
+mass:{
+
+period:
+"Generally increases",
+
+group:
+"Generally increases",
+
+reason:
+"More protons + neutrons",
+
+example:
+"H < Fe < Au"
+
+}
+
+};
+const trendFilter =
+document.getElementById(
+"trendFilter"
+);
+
+const trendInfo =
+document.getElementById(
+"trendInfo"
+);
+
+const trendTitle =
+document.getElementById(
+"trendTitle"
+);
+
+const trendDescription =
+document.getElementById(
+"trendDescription"
+);
+
+const trendExtremes =
+document.getElementById(
+"trendExtremes"
+);
+
+const trendPopupContainer =
+document.getElementById(
+"trendPopupContainer"
+);
+
+const analysisContent =
+document.getElementById(
+"analysisContent"
+);
+
+
+
+
+trendFilter.addEventListener(
+
+"change",
+
+function(){
+
+const property =
+this.value;
+const actualProperty =
+
+property==="mass"
+
+?
+
+"massValue"
+
+:
+
+property;
+const cards =
+document.querySelectorAll(
+".element"
+);
+
+
+
+/* RESET */
+if(property==="none"){
+
+
+trendPopupContainer.style.display =
+"none";
+
+
+cards.forEach(card=>{
+
+card.style.background="";
+
+card.style.border="none";
+
+card.style.boxShadow="";
 
 // Property Heatmap Logic
 const heatmapSelect = document.getElementById("heatmap-select");
@@ -2040,6 +2246,330 @@ heatmapSelect.addEventListener("change", (e) => {
 const tempSlider = document.getElementById("temp-slider");
 const tempDisplay = document.getElementById("temp-display");
 
+return;
+
+}
+
+
+
+
+
+trendPopupContainer.style.display =
+"flex";
+
+
+
+trendTitle.innerText =
+trendDefinitions[
+property
+].title;
+
+trendDescription.innerText =
+trendDefinitions[
+property
+].description;
+
+document
+.getElementById(
+"wikiLink"
+)
+
+.href =
+
+trendLinks[property];
+
+analysisContent.innerHTML=
+
+`
+<div class="analysis-section">
+
+<div class="analysis-heading">
+
+Across Periods
+
+</div>
+
+<div class="analysis-up">
+
+${trendAnalysis[property].period}
+
+</div>
+
+</div>
+
+
+
+<div class="analysis-section">
+
+<div class="analysis-heading">
+
+Down Groups
+
+</div>
+
+<div class="analysis-down">
+
+${trendAnalysis[property].group}
+
+</div>
+
+</div>
+
+
+
+<div class="analysis-section">
+
+<div class="analysis-heading">
+
+Reason
+
+</div>
+
+${trendAnalysis[property].reason}
+
+</div>
+
+
+
+<div class="analysis-section">
+
+<div class="analysis-heading">
+
+Example
+
+</div>
+
+${trendAnalysis[property].example}
+
+</div>
+`;
+
+
+
+const validElements =
+
+elements.filter(
+
+e=>
+e[actualProperty]
+ != null
+
+);
+
+
+
+const values =
+
+validElements.map(
+
+e=>e[actualProperty]
+);
+
+
+
+const min =
+Math.min(...values);
+
+const max =
+Math.max(...values);
+
+
+
+const lowest =
+validElements.find(
+
+e=>
+
+e[actualProperty]
+
+===
+
+min
+);
+
+
+
+const highest =
+validElements.find(
+
+e=>
+
+e[actualProperty]
+
+===
+
+max
+);
+
+
+trendExtremes.innerHTML =
+`
+<div class="extreme-row">
+
+<div class="low-tag">
+LOWEST:
+<b>${lowest.name} (${min})</b>
+</div>
+
+<div class="high-tag">
+HIGHEST:
+<b>${highest.name} (${max})</b>
+</div>
+
+</div>
+`;
+
+
+
+cards.forEach(card=>{
+
+const symbol =
+card.dataset.symbol;
+
+const element =
+
+elements.find(
+
+e=>
+
+e.symbol
+.toLowerCase()
+
+===symbol
+
+);
+
+
+
+if(
+!element
+
+||
+
+element[actualProperty]
+
+==null
+
+)
+
+return;
+card.style.border=
+"none";
+
+
+if(
+element.number
+===
+
+highest.number
+){
+
+card.style.border=
+"4px solid red";
+
+}
+
+
+if(
+element.number
+===
+
+lowest.number
+){
+
+card.style.border=
+"4px solid blue";
+
+}
+
+
+
+
+
+
+
+const norm =
+(element[actualProperty]-min)/(max-min);
+
+
+/* BLUE → GREEN → YELLOW → RED */
+
+const hue =
+220 - (norm*220);
+
+
+const color =
+`linear-gradient(
+145deg,
+
+hsl(${hue},90%,65%),
+
+hsl(${hue},90%,48%)
+
+)`;
+
+
+card.style.background =
+color;
+
+
+
+/* reset borders */
+
+card.style.border =
+"none";
+
+card.style.boxShadow =
+"none";
+
+
+/* highest highlight */
+
+if(
+element.number===highest.number
+){
+
+card.style.border=
+"3px solid white";
+
+card.style.boxShadow=
+"0 0 15px rgba(255,255,255,.7)";
+
+}
+
+
+/* lowest highlight */
+
+if(
+element.number===lowest.number
+){
+
+card.style.border=
+"3px solid #60a5fa";
+
+card.style.boxShadow=
+"0 0 15px rgba(96,165,250,.8)";
+
+}
+
+card.querySelector(
+".tooltip"
+).innerHTML =
+
+`
+${element.name}<br>
+
+${property}:
+
+<b>
+
+${element[actualProperty]}
+
+</b>
+`;
+
+});
+
 tempSlider.addEventListener("input", (e) => {
     const currentTemp = parseFloat(e.target.value);
     tempDisplay.textContent = currentTemp + " K";
@@ -2062,4 +2592,33 @@ tempSlider.addEventListener("input", (e) => {
     });
 });
 
+document
+.getElementById(
+"closeTrendInfo"
+)
 
+.addEventListener(
+
+"click",
+
+()=>{
+
+trendPopupContainer.style.display =
+"none";
+
+trendInfo.classList.add(
+"hidden"
+);
+
+document
+.getElementById(
+"trendAnalysis"
+)
+
+.classList.add(
+"hidden"
+);
+
+trendFilter.value="none";
+
+});
