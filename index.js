@@ -775,12 +775,77 @@ function renderRecentProjects() {
 
 const bookmarkToggleBtn = document.getElementById('bookmarkToggleBtn');
 const recentToggleBtn = document.getElementById('recentToggleBtn');
+const exportBookmarksBtn = document.getElementById('exportBookmarksBtn');
+const importBookmarksBtn = document.getElementById('importBookmarksBtn');
+const importBookmarksInput = document.getElementById('importBookmarksInput');
 
 if (bookmarkToggleBtn) {
   bookmarkToggleBtn.addEventListener('click', () => {
     showAllBookmarks = !showAllBookmarks;
     bookmarkToggleBtn.textContent = showAllBookmarks ? 'Show Less' : 'View All';
     renderBookmarks();
+  });
+}
+
+if (exportBookmarksBtn) {
+  exportBookmarksBtn.addEventListener('click', () => {
+    if (bookmarkedProjects.length === 0) {
+      showToast('No bookmarks to export!');
+      return;
+    }
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(bookmarkedProjects));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "bookmarks.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+    showToast('Bookmarks exported successfully!');
+  });
+}
+
+if (importBookmarksBtn && importBookmarksInput) {
+  importBookmarksBtn.addEventListener('click', () => {
+    importBookmarksInput.click();
+  });
+
+  importBookmarksInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importedData = JSON.parse(e.target.result);
+        if (Array.isArray(importedData)) {
+          let mergedCount = 0;
+          importedData.forEach(item => {
+            if (Array.isArray(item) && item.length >= 5) {
+              const exists = bookmarkedProjects.find(bp => bp[0] === item[0]);
+              if (!exists) {
+                bookmarkedProjects.push(item);
+                mergedCount++;
+              }
+            }
+          });
+          if (mergedCount > 0) {
+            localStorage.setItem('bookmarkedProjects', JSON.stringify(bookmarkedProjects));
+            renderBookmarks();
+            renderRecentProjects();
+            renderGrid();
+            showToast(`${mergedCount} bookmarks imported!`);
+          } else {
+            showToast('No new bookmarks to import.');
+          }
+        } else {
+          showToast('Invalid bookmarks file format!');
+        }
+      } catch (err) {
+        showToast('Error parsing JSON file!');
+      }
+      event.target.value = '';
+    };
+    reader.readAsText(file);
   });
 }
 

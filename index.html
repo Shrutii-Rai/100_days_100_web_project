@@ -138,9 +138,18 @@
           <div class="section-heading-row">
             <h2 class="section-title">Bookmarked Projects</h2>
 
-            <button class="view-all-btn" id="bookmarkToggleBtn">
-              View All
-            </button>
+            <div style="display: flex; gap: 0.5rem; align-items: center;">
+              <button class="view-all-btn" id="exportBookmarksBtn" title="Export Bookmarks">
+                <i class="fas fa-file-export"></i>
+              </button>
+              <button class="view-all-btn" id="importBookmarksBtn" title="Import Bookmarks">
+                <i class="fas fa-file-import"></i>
+              </button>
+              <input type="file" id="importBookmarksInput" accept=".json" style="display: none;" />
+              <button class="view-all-btn" id="bookmarkToggleBtn">
+                View All
+              </button>
+            </div>
           </div>
         </div>
 
