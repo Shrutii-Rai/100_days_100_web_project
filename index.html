@@ -137,16 +137,6 @@
         </div>
 
         <div class="projects-header">
-          <div class="search-bar">
-            <i class="fas fa-search search-icon"></i>
-            <input
-              type="text"
-              id="searchInput"
-              class="search-input"
-              placeholder="Search projects…"
-              autocomplete="off"
-            />
-          </div>
           <div class="filter-chips" id="filterChips">
             <button class="chip active" data-filter="all" id="filterAll">
               All <span class="chip-count" id="allCount">Projects</span>
@@ -164,6 +154,25 @@
               UI / Animation
             </button>
             <button class="chip" data-filter="api" id="filterAPI">APIs</button>
+          </div>
+          
+          <div class="search-and-sort">
+            <div class="search-bar">
+              <i class="fas fa-search search-icon"></i>
+              <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Search projects…"
+                autocomplete="off"
+              />
+            </div>
+            <div class="sort-dropdown">
+              <select id="sortSelect" class="sort-select" aria-label="Sort projects">
+                <option value="default">Default Sort</option>
+                <option value="category">Sort by Category</option>
+              </select>
+            </div>
           </div>
         </div>
 
