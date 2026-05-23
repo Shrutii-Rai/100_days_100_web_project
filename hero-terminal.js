@@ -538,36 +538,61 @@ const host = document.getElementById('heroTerminal');
 if (!host) console.error('[hero-terminal] mount target #heroTerminal not found');
 
 if (host) {
-  const screenWidth = window.innerWidth || 0;
-  const isSmallScreen = screenWidth <= 600;
-  const isMediumScreen = screenWidth <= 1024;
-  const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+  const root = createRoot(host);
 
-  const terminalSettings = {
-    scale: isSmallScreen ? 1.05 : isMediumScreen ? 1.3 : 1.5,
-    gridMul: [isSmallScreen ? 1.6 : 2, 1],
-    digitSize: isSmallScreen ? 1 : isMediumScreen ? 1.1 : 1.2,
-    timeScale: 1,
-    scanlineIntensity: isSmallScreen ? 0.8 : 1,
-    flickerAmount: 1,
-    noiseAmp: isSmallScreen ? 0.6 : 1,
-    chromaticAberration: 0,
-    dither: 0,
-    curvature: 0,
-    tint: '#0066ff',
-    mouseReact: !isCoarsePointer,
-    mouseStrength: isSmallScreen ? 0.35 : 0.5,
-    pageLoadAnimation: false,
-    brightness: isSmallScreen ? 0.25 : 0.3,
-    glitchAmount: 1,
-    style: { width: '100%', height: '100%' }
+  const getScreenSettings = () => {
+    const screenWidth = window.innerWidth || 0;
+    const isSmallScreen = screenWidth <= 600;
+    const isMediumScreen = screenWidth <= 1024;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+
+    return {
+      scale: isSmallScreen ? 1.05 : isMediumScreen ? 1.3 : 1.5,
+      gridMul: [isSmallScreen ? 1.6 : 2, 1],
+      digitSize: isSmallScreen ? 1 : isMediumScreen ? 1.1 : 1.2,
+      timeScale: 1,
+      scanlineIntensity: isSmallScreen ? 0.8 : 1,
+      flickerAmount: 1,
+      noiseAmp: isSmallScreen ? 0.6 : 1,
+      chromaticAberration: 0,
+      dither: 0,
+      curvature: 0,
+      tint: '#0066ff',
+      mouseReact: !isCoarsePointer,
+      mouseStrength: isSmallScreen ? 0.35 : 0.5,
+      pageLoadAnimation: false,
+      brightness: isSmallScreen ? 0.25 : 0.3,
+      glitchAmount: 1,
+      style: { width: '100%', height: '100%' }
+    };
   };
 
-  const root = createRoot(host);
-  root.render(
-    React.createElement(FaultyTerminal, {
-      ...terminalSettings,
-      pause: false
-    })
-  );
+  const getSizeKey = () => {
+    const screenWidth = window.innerWidth || 0;
+    const size = screenWidth <= 600 ? 'small' : screenWidth <= 1024 ? 'medium' : 'large';
+    const pointer = window.matchMedia('(pointer: coarse)').matches ? 'coarse' : 'fine';
+    return `${size}-${pointer}`;
+  };
+
+  const renderTerminal = () => {
+    const terminalSettings = getScreenSettings();
+    root.render(
+      React.createElement(FaultyTerminal, {
+        ...terminalSettings,
+        pause: false
+      })
+    );
+  };
+
+  let sizeKey = getSizeKey();
+  renderTerminal();
+
+  const handleResize = () => {
+    const nextKey = getSizeKey();
+    if (nextKey === sizeKey) return;
+    sizeKey = nextKey;
+    renderTerminal();
+  };
+
+  window.addEventListener('resize', handleResize);
 }

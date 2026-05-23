@@ -1302,7 +1302,7 @@ window.clearAllTechFilters = clearAllTechFilters;
   const areaPerParticle = 26000;
   let particleCount = 60;
   let linkDistance = 120;
-  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+  let dpr = 1;
 
   function resize() {
     W = window.innerWidth;
