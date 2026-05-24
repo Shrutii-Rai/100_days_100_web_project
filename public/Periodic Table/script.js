@@ -156,7 +156,7 @@ const electronegativity={
 27:1.88,28:1.91,29:1.90,30:1.65,31:1.81,32:2.01,33:2.18,34:2.55,
 35:2.96,36:3.00,37:0.82,38:0.95,39:1.22,40:1.33,41:1.60,42:2.16,
 43:1.90,44:2.20,45:2.28,46:2.20,47:1.93,48:1.69,49:1.78,50:1.96,
-51:2.05,52:2.10,53:2.66,54:2.60,55:0.79,56:0.89,57:1.10,57:1.10,
+51:2.05,52:2.10,53:2.66,54:2.60,55:0.79,56:0.89,57:1.10,
 58:1.12,59:1.13,60:1.14,61:1.13,62:1.17,63:1.20,64:1.20,65:1.10,
 66:1.22,67:1.23,68:1.24,69:1.25,70:1.10,71:1.27,72:1.30,73:1.50,
 74:2.36,75:1.90,76:2.20,77:2.20,78:2.28,79:2.54,80:2.00,81:1.62,
@@ -197,7 +197,7 @@ const ionizationEnergy={
 37:4.177,38:5.695,39:6.217,40:6.634,41:6.759,42:7.092,
 43:7.280,44:7.361,45:7.459,46:8.337,47:7.576,48:8.994,
 49:5.786,50:7.344,51:8.608,52:9.010,53:10.451,54:12.130,
-55:3.894,56:5.212,57:5.577,57:5.577,58:5.539,59:5.473,
+55:3.894,56:5.212,57:5.577,58:5.539,59:5.473,
 60:5.525,61:5.582,62:5.644,63:5.670,64:6.150,65:5.864,
 66:5.939,67:6.022,68:6.108,69:6.184,70:6.254,71:5.426,
 72:6.825,73:7.550,74:7.864,75:7.833,76:8.438,77:8.967,
@@ -603,11 +603,13 @@ function animate() {
 // Update Play/Pause UI Icons
 function updatePlayPauseUI() {
     if (isPlaying) {
-        playIcon.style.display = "none";
-        pauseIcon.style.display = "block";
+        if (playIcon) playIcon.style.display = "none";
+        if (pauseIcon) pauseIcon.style.display = "block";
+        if (!playIcon && !pauseIcon) playPauseBtn.textContent = "Pause";
     } else {
-        playIcon.style.display = "block";
-        pauseIcon.style.display = "none";
+        if (playIcon) playIcon.style.display = "block";
+        if (pauseIcon) pauseIcon.style.display = "none";
+        if (!playIcon && !pauseIcon) playPauseBtn.textContent = "Play";
     }
 }
 
@@ -704,7 +706,7 @@ el.symbol.toLowerCase();
 
 lanContainer.appendChild(lanLabel);
 lanContainer.appendChild(lanRow);
-document.querySelector(".main-container").appendChild(lanContainer);
+document.querySelector(".periodic-table-wrapper").appendChild(lanContainer);
 
 
 //--------------Add Actinides------------------
@@ -751,7 +753,7 @@ el.symbol.toLowerCase();
 
 actContainer.appendChild(actLabel);
 actContainer.appendChild(actRow);
-document.querySelector(".main-container").appendChild(actContainer);
+document.querySelector(".periodic-table-wrapper").appendChild(actContainer);
 
 
 // Filter categories from Dropdown List
@@ -851,6 +853,9 @@ if(match){
 el.classList.add(
 "search-active"
 );
+
+// Auto-scroll to matched element if not already visible
+el.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
 
 }
 
