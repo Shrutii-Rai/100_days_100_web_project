@@ -254,6 +254,12 @@ class Calculator {
         break;
       case 'factorial':
         result = this.factorial(current);
+        if (result === null) {
+        this.currentOperand = 'Error';
+        this.expression = 'Error';
+        this.updateDisplay();
+        return;
+        }
         break;
       case 'percent':
         result = current / 100;
@@ -307,6 +313,7 @@ class Calculator {
   }
 
   factorial(n) {
+    if (!Number.isInteger(n) || n < 0) return null;
     if (n === 0) return 1;
     let result = 1;
     for (let i = 1; i <= n; i++) {
