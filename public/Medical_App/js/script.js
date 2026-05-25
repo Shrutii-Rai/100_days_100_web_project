@@ -98,31 +98,32 @@ document.addEventListener('DOMContentLoaded', () => {
             requestForm.reset();
         }, 2000);
     });
-    
-    responseForm.addEventListener('submit', function (event) {
-        event.preventDefault();
-        const consultationId = document.getElementById('consultationId').value;
-        const suggestion = document.getElementById('suggestion').value;
+    if(responseForm){    
+        responseForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+            const consultationId = document.getElementById('consultationId').value;
+            const suggestion = document.getElementById('suggestion').value;
 
-        // Simulating response submission
-        loading.style.display = 'block';
-        statusMessage.textContent = '';
+            // Simulating response submission
+            loading.style.display = 'block';
+            statusMessage.textContent = '';
 
-        setTimeout(() => {
-            loading.style.display = 'none';
-            const consultation = consultationHistory.find(c => c.date === consultationId);
-            if (consultation) {
-                consultation.status = 'Completed';
-                consultation.notes = suggestion;
-                localStorage.setItem('consultations', JSON.stringify(consultationHistory));
-                renderHistory();
-                statusMessage.textContent = `Response submitted for Consultation ID: ${consultationId}`;
-            } else {
-                statusMessage.textContent = `Consultation ID: ${consultationId} not found.`;
-            }
-            responseForm.reset();
-        }, 2000);
-    });
+            setTimeout(() => {
+                loading.style.display = 'none';
+                const consultation = consultationHistory.find(c => c.date === consultationId);
+                if (consultation) {
+                    consultation.status = 'Completed';
+                    consultation.notes = suggestion;
+                    localStorage.setItem('consultations', JSON.stringify(consultationHistory));
+                    renderHistory();
+                    statusMessage.textContent = `Response submitted for Consultation ID: ${consultationId}`;
+                } else {
+                    statusMessage.textContent = `Consultation ID: ${consultationId} not found.`;
+                }
+                responseForm.reset();
+            }, 2000);
+        });
+    }
     
     feedbackForm.addEventListener('submit', function (event) {
         event.preventDefault();
@@ -419,4 +420,19 @@ bookingForm.addEventListener("submit", (e) => {
     
     // Focus the Success Close button for accessibility
     closeSuccessBtn.focus();
+});
+const doctorSearch = document.getElementById("doctorSearch");
+
+doctorSearch.addEventListener("input", () => {
+
+    const value = doctorSearch.value.toLowerCase();
+
+    document.querySelectorAll(".doctor-card").forEach(card => {
+
+        const name = card.innerText.toLowerCase();
+
+        card.style.display = name.includes(value)
+            ? "block"
+            : "none";
+    });
 });

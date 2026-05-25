@@ -4,12 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MedConsult Dashboard</title>
-    <link rel="stylesheet" href="/public/Medical_App/styles.css">
-</head>
-
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/navbar.css">
+    <link rel="stylesheet" href="css/darkmode.css">
+    <link rel="stylesheet" href="css/toast.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/hero.css">
 <body>
+<nav class="navbar">
+    <div class="logo">
+        <img src="assets/logo.png" alt="logo">
+        <span>MedConsult</span>
+    </div>
 
+    <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="remedies.html">Remedies</a></li>
+        <li><a href="feedback.html">Feedback</a></li>
+    </ul>
+</nav>
 <header class="hero">
+    <button id="themeToggle" class="theme-btn">🌙</button>
     <div class="hero-content">
         <h1>🏥 MedConsult Dashboard</h1>
         <p>Connecting Local Doctors with Specialists</p>
@@ -50,7 +65,9 @@
                 </div>
                 
                 <div class="doctor-profile">
-                    <div class="doctor-avatar">👩‍⚕️</div>
+                    <div class="doctor-avatar">
+                        <img src="assets/doctors/sarah.png" alt="Dr Sarah">
+                    </div>
                     <div class="doctor-identity">
                         <h3>Dr. Sarah Jenkins</h3>
                         <span class="specialty-badge">Cardiologist</span>
@@ -74,7 +91,9 @@
                 </div>
                 
                 <div class="doctor-profile">
-                    <div class="doctor-avatar">👨‍⚕️</div>
+                    <div class="doctor-avatar">
+                        <img src="assets/doctors/james.png" alt="Dr James">
+                    </div>
                     <div class="doctor-identity">
                         <h3>Dr. James Smith</h3>
                         <span class="specialty-badge">Neurologist</span>
@@ -98,7 +117,9 @@
                 </div>
                 
                 <div class="doctor-profile">
-                    <div class="doctor-avatar">👩‍⚕️</div>
+                    <div class="doctor-avatar">
+                        <img src="assets/doctors/emily.png" alt="Dr Emily">
+                    </div>
                     <div class="doctor-identity">
                         <h3>Dr. Emily Watson</h3>
                         <span class="specialty-badge">Pediatrician</span>
@@ -114,7 +135,7 @@
             </div>
         </div>
     </section>
-
+    <input type="text" id="doctorSearch" placeholder="Search Doctors...">
     <section class="card">
         <h2>📊 Health Monitoring</h2>
 
@@ -174,7 +195,20 @@
             <button class="primary-btn">Give Feedback</button>
         </a>
     </section>
+    <section class="card">
+        <h2>🧠 Daily Health Tips</h2>
 
+        <div id="healthTip"></div>
+    </section>
+    <section class="card emergency-card">
+        <h2>🚑 Emergency Help</h2>
+
+        <div class="emergency-grid">
+            <button>📞 Ambulance</button>
+            <button>🏥 Nearby Hospital</button>
+            <button>🧑‍⚕️ Emergency Doctor</button>
+        </div>
+    </section>
 </main>
 
 <!-- Appointment Booking Modal -->
@@ -229,7 +263,15 @@
     </div>
 </div>
 
-<script src="/public/Medical_App/script.js"></script>
-
+<script src="js/script.js"></script>
+<script src="js/darkmode.js"></script>
+<script src="js/toast.js"></script>
+<script src="js/dashboard.js"></script>
+<script src="js/emergency.js"></script>
+<script src="js/appointments.js"></script>
+<script src="js/reschedule.js"></script>
+<footer class="footer">
+    <p>© 2026 MedConsult Dashboard</p>
+</footer>
 </body>
 </html>
