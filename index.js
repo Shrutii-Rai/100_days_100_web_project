@@ -1481,11 +1481,11 @@ window.clearAllTechFilters = clearAllTechFilters;
     if (profile.disableAnimation) {
       stopAnimation();
       ctx.clearRect(0, 0, W, H);
-      canvas.style.opacity = '0';
+      canvas.style.display = 'none';
       return;
     }
 
-    canvas.style.opacity = '';
+    canvas.style.display = '';
     init();
     startAnimation();
   };
