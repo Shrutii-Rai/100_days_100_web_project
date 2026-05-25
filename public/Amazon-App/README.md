@@ -1,4 +1,4 @@
-# 🛒 Amazon App (Frontend Clone)
+# 🛒 Amazon App 
 
 ## 🚀 Overview
 
@@ -124,9 +124,9 @@ Open `index.html` in your browser.
 
 ## 📸 Screenshots
 
-| Home Screen | Add Task | 
+| Home Screen | Sidebar Functionality | 
 |-------------|----------|
-|<img src="https://files.catbox.moe/0s61g5.jpeg" width="350" height="400"/> | <img src="https://files.catbox.moe/739bp6.jpeg" width="350" height="400"/> |
+|<img src="https://files.catbox.moe/0s61g5.jpeg" width="400" height="500"/> | <img src="https://files.catbox.moe/739bp6.jpeg" width="400" height="500"/> |
 
 ---
 
