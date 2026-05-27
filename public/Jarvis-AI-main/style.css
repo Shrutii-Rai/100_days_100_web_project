@@ -18,13 +18,20 @@ body {
 /* Background Animation */
 
 .main {
+
     min-height: 100vh;
+
+    height: 100vh;
+    position: relative;
+    z-index: 2;
+ 
     width: 100%;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+ 
 
     background: linear-gradient(
         135deg,
@@ -38,6 +45,9 @@ body {
     animation: gradientBG 10s ease infinite;
 
     padding: 20px;
+
+    padding: 10px;
+
 }
 
 /* Animated Gradient */
@@ -88,6 +98,7 @@ body {
 
 .main .image-container .image video,
 .main .image-container .image img {
+ 
 
     width: 320px;
     max-width: 90%;
@@ -116,11 +127,19 @@ body {
     100% {
         transform: translateY(0px);
     }
+
+    width: 320px;
+    max-width: 90%;
+    max-height: 40vh;
+    object-fit: contain;
+    align-items: center;
+
 }
 
 /* JARVIS Heading */
 
 .main .image-container h1 {
+
 
     color: #ff4f81;
 
@@ -128,6 +147,13 @@ body {
     margin-bottom: 10px;
 
     font-size: 45px;
+
+
+    color: #00bcd4;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-size: 38px;
 
     letter-spacing: 12px;
 
@@ -160,7 +186,11 @@ body {
 
     color: #7f8c8d;
     text-align: center;
+
     margin-bottom: 24px;
+
+
+    margin-bottom: 20px;
 
     font-size: 15px;
 
@@ -179,10 +209,16 @@ body {
 
     display: flex;
     align-items: center;
+
     justify-content: center;
 
     width: 420px;
     height: 65px;
+
+
+    width: min(500px, 90%);
+    min-height: 90px;
+    padding: 20px 25px;
 
     border-radius: 40px;
 
@@ -204,6 +240,7 @@ body {
     border: 1px solid rgba(0, 188, 212, 0.2);
     backdrop-filter: blur(10px);
     gap: 18px;
+ 
     margin-bottom: 10px;
 
 }
@@ -216,6 +253,9 @@ body {
 
     box-shadow:
         0 10px 25px rgba(255,79,129,0.3);
+
+    margin-bottom: 20px;
+
 }
 
 /* Mic Button */
