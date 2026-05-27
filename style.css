@@ -864,6 +864,14 @@ color: var(--text-primary);
   border-color: var(--border-accent);
   background: var(--bg-surface);
 }
+button:focus,
+a:focus,
+input:focus,
+.project-card:focus {
+  outline: 2px solid #00bfff;
+  outline-offset: 3px;
+  border-radius: 6px;
+}
 
 .clear-btn {
   width: 40px;
@@ -2634,3 +2642,4 @@ body::after {
     padding: 0.5rem 0;
   }
   }
+}
