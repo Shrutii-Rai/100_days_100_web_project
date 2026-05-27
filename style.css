@@ -706,7 +706,7 @@ body.light-mode .hero-terminal-text {
   align-items: center;
   gap: 0.875rem;
   padding: 0.85rem 1.35rem;
-  background: rgba(10, 14, 24, 0.72);
+  background: rgba(10, 14, 24, 0.614);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 999px;
   box-shadow:
@@ -720,7 +720,7 @@ body.light-mode .hero-terminal-text {
 
 .stat-item {
   font-size: 0.78rem;
-  color: var(--text-secondary);
+  color: var(--text-primary);
   white-space: nowrap;
   letter-spacing: 0.02em;
 }
