@@ -153,7 +153,14 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 16px 20px 0;
+  padding: 16px 20px 16px 170px;
+  background: var(--page-bg-mid);
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 60px 16px 16px 16px;
+  }
 }
 
 .navbar {
@@ -181,6 +188,7 @@ header {
   flex-wrap: wrap;
   gap: 8px;
 }
+
 
 /* Remove list styling from nested navigation lists */
 .nav-left ul,
