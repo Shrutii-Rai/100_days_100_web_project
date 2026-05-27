@@ -1231,8 +1231,7 @@ syncProjectCounts();
 function updateNavbar() {
   const container = document.getElementById('navButtons');
   if (!container) return;
-
-  const username = window.username || null;
+  const username = window.username || localStorage.getItem('loggedInUser') || null;   // Read logged-in user from localStorage so navbar consists of logged in user when page reloads
   const isRoot = !window.location.pathname.includes('/contributors/');
   const base = isRoot ? '' : '../';
   const isLight = document.body.classList.contains('light-mode');
@@ -1258,10 +1257,11 @@ function updateNavbar() {
             </a>
             ${otherLink}
         `;
-    document.getElementById('logoutBtn').addEventListener('click', () => {
+      document.getElementById('logoutBtn').addEventListener('click', () => {
       window.username = null;
+      localStorage.removeItem('loggedInUser');  // cleared logged in info on logout
       updateNavbar();
-    });
+      });
   } else {
     container.innerHTML = `
             ${themeButton}
