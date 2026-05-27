@@ -28,8 +28,7 @@ python -m http.server 8000
 ```
 
 3. Open in your browser:
-- Landing page: http://localhost:8000/public/Parallel-x%20website/parallal.html
-- Tracker: http://localhost:8000/public/Parallel-x%20website/tracker.html
+
 
 ## Usage
 - Open the tracker and add custom habits using the add form.
@@ -54,8 +53,4 @@ Please avoid adding heavy build tooling — this project is intentionally depend
 MIT License — see the top-level `LICENSE` file for details.
 
 ## Author
-Your Name — replace with your preferred name and contact details.
-
----
-
-If you'd like, I can commit this file to the `enhance-eco-habit-tracker` branch and open a PR for you.
+Indrayani Verulkar
