@@ -629,3 +629,33 @@ h3 {
     opacity:1;
   }
 }
+.cart-quantity{
+  transition: transform 0.2s ease;
+}
+
+.cart-quantity.animate{
+  transform: scale(1.2);
+}
+
+.add-cart,
+.cart-remove,
+.btn-buy,
+.clear-cart-btn{
+  transition: transform 0.2s ease;
+}
+
+.add-cart:active,
+.cart-remove:active,
+.btn-buy:active,
+.clear-cart-btn:active{
+  transform: scale(0.9);
+}
+
+.total-price{
+  transition: all 0.3s ease;
+}
+
+.total-price.updated{
+  transform: scale(1.1);
+  color: #2ed573;
+}

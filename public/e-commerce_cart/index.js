@@ -103,6 +103,11 @@ function changeQty(){
   if(isNaN(this.value) || this.value<1){
     this.value=1;
   }
+  this.classList.add('animate');
+
+setTimeout(() => {
+  this.classList.remove('animate');
+}, 200);
   localStorage.setItem("cartItems", JSON.stringify(itemList));
   loadContent();
 }
@@ -204,6 +209,12 @@ function updateTotal()
   });
 
   totalValue.innerHTML='Rs.'+total;
+
+totalValue.classList.add('updated');
+
+setTimeout(() => {
+  totalValue.classList.remove('updated');
+}, 300);
 
 
   // Add Product Count in Cart Icon
