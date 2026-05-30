@@ -2423,5 +2423,18 @@
     ],
     "difficulty": "intermediate",
     "projectPath": "./public/Lost_And_Found_Portal/index.html"
+  },
+  {
+    "projectNo": 195,
+    "projectName": "Complaint Management System",
+    "projectType": "Web Application",
+    "projectDesc": "A professional portal for submitting, tracking, and managing complaints efficiently with a premium modern UI.",
+    "techStack": [
+      "html",
+      "css",
+      "javascript"
+    ],
+    "difficulty": "advanced",
+    "projectPath": "./public/Complaint_Management_System/index.html"
   }
 ]
