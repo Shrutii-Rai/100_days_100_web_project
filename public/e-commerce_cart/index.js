@@ -1,13 +1,3 @@
-/* Consolidated cart + wishlist + search + UI script
-   - cart panel (add/remove/qty/total)
-   - wishlist toggle + count
-   - product search filter
-   - quick-view modal
-   - checkout modal (basic validation)
-   - clear cart button
-   - dark-mode toggle (persisted)
-*/
-
 document.addEventListener('DOMContentLoaded', () => {
   // Elements
   const cartPanel = document.getElementById('cart-panel');
@@ -21,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartCloseBtn = document.getElementById('cart-close');
   const noProductsMessage = document.getElementById('no-products-message');
 
-  let itemList = [];
+  let itemList = JSON.parse(localStorage.getItem("cartItems")) || [];
   let wishlist = [];
 
   function showToast(msg) {
@@ -52,6 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cartPanel && cartPanel.classList.add('active');
     cartOverlay && cartOverlay.classList.add('active');
   }
+
   function closeCart() {
     cartPanel && cartPanel.classList.remove('active');
     cartOverlay && cartOverlay.classList.remove('active');
@@ -140,18 +131,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (cartBadge) {
       cartBadge.textContent = count;
-       cartBadge.style.display = count ? 'inline-block' : 'none';
+      cartBadge.style.display = count ? 'inline-block' : 'none';
     }
     if (cartEmpty) cartEmpty.style.display = count ? 'none' : 'flex';
   }
 
   function addItemToCart(title, price, img) {
     if (itemList.find((i) => i.title === title)) {
-      alert('Already in cart!');
+      showToast('Already in cart!');
       return;
     }
 
     itemList.push({ title, price, img });
+    localStorage.setItem("cartItems", JSON.stringify(itemList));
 
     const row = document.createElement('div');
     row.className = 'cart-box';
@@ -172,50 +164,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const title = box.querySelector('.shoe-title')?.textContent || 'Product';
     const price = box.querySelector('.shoe-price')?.textContent || '0';
     const img = box.querySelector('.shoe-img')?.src || '';
-
-wishlistBtns.forEach((btn) => {
-  btn.addEventListener('click', toggleWishlist);
-});
-updateTotal();
-}
-function showToast(message){
-
-  const toast = document.createElement('div');
-
-  toast.classList.add('toast');
-
-  toast.innerText = message;
-
-  document.body.appendChild(toast);
-
-  setTimeout(() => {
-    toast.classList.add('show');
-  }, 100);
-
-  setTimeout(() => {
-    toast.classList.remove('show');
-
-    setTimeout(() => {
-      toast.remove();
-    }, 400);
-
-  }, 3000);
-}
-
-
-//Remove Item
-function removeItem(){
-  if(confirm('Are Your Sure to Remove')){
-    let title=this.parentElement.querySelector('.cart-shoe-title').innerHTML;
-    itemList=itemList.filter(el=>el.title!=title);
-    localStorage.setItem("cartItems", JSON.stringify(itemList));
-    this.parentElement.remove();
-    showToast("Product removed from cart");
-    loadContent();
     addItemToCart(title, price, img);
   }
 
-  // wishlist
+  function updateWishlistCount() {
+    if (!wishlistCountEl) return;
+    wishlistCountEl.textContent = wishlist.length;
+    wishlistCountEl.style.display = wishlist.length ? 'block' : 'none';
+  }
+
   function toggleWishlist(e) {
     const btn = e.currentTarget;
     const card = btn.closest('.shoe-box');
@@ -233,70 +190,6 @@ function removeItem(){
       showToast('Added to wishlist');
     }
     updateWishlistCount();
-  }
-  this.classList.add('animate');
-
-setTimeout(() => {
-  this.classList.remove('animate');
-}, 200);
-  localStorage.setItem("cartItems", JSON.stringify(itemList));
-  loadContent();
-}
-
-let itemList = JSON.parse(localStorage.getItem("cartItems")) || [];
-let wishlist = [];
-
-//Add Cart
-function toggleWishlist() {
-  const card = this.closest('.shoe-box');
-  const title = card.querySelector('.shoe-title').textContent;
-
-  if (wishlist.includes(title)) {
-    wishlist = wishlist.filter(item => item !== title);
-    this.classList.remove('active');
-    showToast("Removed from wishlist");
-  } else {
-    wishlist.push(title);
-    this.classList.add('active');
-    showToast("Added to wishlist");
-  }
-
-  updateWishlistCount();
-}
-function updateWishlistCount() {
-  const count = document.querySelector('#wishlist-count');
-
-  count.textContent = wishlist.length;
-
-  if (wishlist.length === 0) {
-    count.style.display = 'none';
-  } else {
-    count.style.display = 'block';
-  }
-}
-function addCart(){
-  let shoe=this.parentElement;
-  let title=shoe.querySelector('.shoe-title').innerHTML;
-  let price=shoe.querySelector('.shoe-price').innerHTML;
-  let imgSrc=shoe.querySelector('.shoe-img').src;
-
-  let remove_shoe=shoe.querySelector('.remove_icon').src;
-//console.log(title,price,imgSrc);
-
-  let newProduct={title,price,imgSrc,remove_shoe}
-
- //Check Product already Exist in Cart
-  if(itemList.find((el)=>el.title==newProduct.title)){
-  showToast("Product already added to cart");
-  return;
-  }else{
-  itemList.push(newProduct);
-  showToast("Product added to cart");
-  localStorage.setItem("cartItems", JSON.stringify(itemList));
-  function updateWishlistCount() {
-    if (!wishlistCountEl) return;
-    wishlistCountEl.textContent = wishlist.length;
-    wishlistCountEl.style.display = wishlist.length ? 'block' : 'none';
   }
 
   function getRatingMarkup(rating) {
@@ -331,7 +224,7 @@ function addCart(){
     });
   }
 
-  // attach product handlers
+  // Attach product handlers
   document
     .querySelectorAll('.add-cart')
     .forEach((b) => b.addEventListener('click', addToCartHandler));
@@ -397,25 +290,6 @@ function addCart(){
     if (e.target === quickViewModal) quickViewModal.style.display = 'none';
   });
 
-  totalValue.innerHTML='Rs.'+total;
-
-totalValue.classList.add('updated');
-
-setTimeout(() => {
-  totalValue.classList.remove('updated');
-}, 300);
-
-
-  // Add Product Count in Cart Icon
-
-  const cartCount=document.querySelector('.cart-count');
-  let count=itemList.length;
-  cartCount.innerHTML=count;
-
-  if(count==0){
-    cartCount.style.display='none';
-  }else{
-    cartCount.style.display='block';
   // CHECKOUT modal
   const buyBtns = document.querySelectorAll('.btn-buy');
   const checkoutModal = document.querySelector('.checkout-modal');
@@ -457,6 +331,7 @@ setTimeout(() => {
     clearCartBtn.addEventListener('click', () => {
       if (cartBody) cartBody.innerHTML = '';
       itemList = [];
+      localStorage.removeItem("cartItems");
       updateUI();
       showToast('Cart cleared');
     });
@@ -479,176 +354,7 @@ setTimeout(() => {
       }
     });
 
-  // initial UI
+  // Initial UI
   updateUI();
   updateWishlistCount();
-});
-
-submitOrder.addEventListener('click', () => {
-
-  const fullName = document.querySelector('#full-name').value;
-  const address = document.querySelector('#address').value;
-  const phone = document.querySelector('#phone').value;
-  const payment = document.querySelector('#payment-method').value;
-
-  if(fullName === '' || address === '' || phone === '' || payment === ''){
-    showToast('Please fill all fields');
-    return;
-  }
-
-  showToast('Order placed successfully!');
-
-  checkoutModal.style.display = 'none';
-});
-const searchInput = document.querySelector('#search-input');
-
-searchInput.addEventListener('keyup', () => {
-
-  const searchValue = searchInput.value.toLowerCase();
-
-  const products = document.querySelectorAll('.shoe-box');
-
-  let matchFound = false;
-
-  products.forEach((product) => {
-
-    const title = product
-      .querySelector('.shoe-title')
-      .textContent
-      .toLowerCase();
-
-    if(title.includes(searchValue)){
-
-      product.style.display = 'block';
-      matchFound = true;
-
-    } else {
-
-      product.style.display = 'none';
-
-    }
-
-  });
-
-  const noProductsMessage =
-    document.querySelector('#no-products-message');
-
-  if(matchFound){
-    noProductsMessage.style.display = 'none';
-  } else {
-    noProductsMessage.style.display = 'block';
-  }
-
-});
-const clearCartBtn = document.querySelector('.clear-cart-btn');
-clearCartBtn.addEventListener('click', () => {
-
-  const cartContent = document.querySelector('.cart-content');
-
-  cartContent.innerHTML = '';
-
-  itemList = [];
-
-  localStorage.removeItem("cartItems");
-
-  updateTotal();
-
-  showToast("Cart cleared");
-
-});
-// Dark Mode
-
-const darkModeBtn = document.querySelector('#dark-mode-btn');
-
-if(localStorage.getItem("theme") === "dark"){
-  document.body.classList.add('dark-mode');
-
-  if(darkModeBtn){
-    darkModeBtn.innerText = "☀";
-  }
-}
-
-if(darkModeBtn){
-
-  darkModeBtn.addEventListener('click', () => {
-
-    document.body.classList.toggle('dark-mode');
-
-    if(document.body.classList.contains('dark-mode')){
-
-      localStorage.setItem("theme", "dark");
-
-      darkModeBtn.innerText = "☀";
-
-    } else {
-
-      localStorage.setItem("theme", "light");
-
-      darkModeBtn.innerText = "🌙";
-
-    }
-
-  });
-
-}
-// Quick View Popup
-
-const quickViewModal =
-  document.querySelector('.quick-view-modal');
-
-const quickViewImg =
-  document.querySelector('#quick-view-img');
-
-const quickViewTitle =
-  document.querySelector('#quick-view-title');
-
-const quickViewPrice =
-  document.querySelector('#quick-view-price');
-
-const closeQuickView =
-  document.querySelector('.close-quick-view');
-
-const quickViewImages =
-  document.querySelectorAll('.shoe-img');
-
-quickViewImages.forEach((image) => {
-
-  image.addEventListener('click', () => {
-
-    const shoeBox = image.closest('.shoe-box');
-
-    const title =
-      shoeBox.querySelector('.shoe-title').innerText;
-
-    const price =
-      shoeBox.querySelector('.shoe-price').innerText;
-
-    const imgSrc = image.src;
-
-    quickViewImg.src = imgSrc;
-
-    quickViewTitle.innerText = title;
-
-    quickViewPrice.innerText = price;
-
-    quickViewModal.style.display = 'flex';
-
-  });
-
-});
-
-closeQuickView.addEventListener('click', () => {
-
-  quickViewModal.style.display = 'none';
-
-});
-
-window.addEventListener('click', (e) => {
-
-  if(e.target === quickViewModal){
-
-    quickViewModal.style.display = 'none';
-
-  }
-
 });
