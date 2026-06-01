@@ -18,230 +18,202 @@ let bmiLabels = [];
 
 btn.addEventListener("click", () => {
 
-    const height = parseFloat(document.getElementById("height").value);
-    const weight = parseFloat(document.getElementById("weight").value);
+    const height = parseFloat(
+        document.getElementById("height").value
+    );
+
+    const weight = parseFloat(
+        document.getElementById("weight").value
+    );
 
     if(!height || !weight){
-        alert("Please enter valid height and weight");
+        alert("Please enter valid values");
         return;
     }
 
-    const bmi = (weight / ((height/100)*(height/100))).toFixed(1);
+    const bmi = (
+        weight /
+        ((height/100)*(height/100))
+    ).toFixed(1);
 
     bmiValue.innerText = bmi;
 
     updateGauge(bmi);
 
-    let categoryText = "";
-    let msg = "";
-    let calorieText = "";
-    let waterText = `${(weight * 0.033).toFixed(1)} Litres/day`;
+    const minWeight = (
+        18.5*((height/100)*(height/100))
+    ).toFixed(1);
 
-    const minWeight = (18.5 * ((height/100)*(height/100))).toFixed(1);
-    const maxWeight = (24.9 * ((height/100)*(height/100))).toFixed(1);
+    const maxWeight = (
+        24.9*((height/100)*(height/100))
+    ).toFixed(1);
 
-    healthyWeight.innerText = `${minWeight} kg - ${maxWeight} kg`;
+    healthyWeight.innerText =
+        `${minWeight} - ${maxWeight} kg`;
 
-    dietPlan.innerHTML = "";
-    workoutPlan.innerHTML = "";
+    water.innerText =
+        `${(weight*0.033).toFixed(1)} Litres/day`;
+
+    dietPlan.innerHTML="";
+    workoutPlan.innerHTML="";
 
     if(bmi < 18.5){
 
-        categoryText = "Underweight";
-        msg = "You should focus on gaining healthy weight with nutrient-rich meals.";
+        category.innerText="Underweight";
 
-        calorieText = "2500 - 2800 kcal/day";
+        message.innerText=
+        "Gain healthy weight.";
+
+        calories.innerText=
+        "2500 - 2800 kcal/day";
 
         addDiet([
-            "High protein foods",
-            "Milk, nuts and peanut butter",
-            "Rice, potatoes and whole grains",
-            "Smoothies and banana shakes",
-            "Eggs and chicken"
+            "Milk",
+            "Eggs",
+            "Nuts"
         ]);
 
         addWorkout([
-            "Strength training",
-            "Push-ups and squats",
-            "Weight lifting",
-            "Light cardio",
-            "Resistance exercises"
+            "Strength Training",
+            "Squats",
+            "Pushups"
         ]);
 
     }
 
-    else if(bmi >= 18.5 && bmi < 25){
+    else if(bmi < 25){
 
-        categoryText = "Normal Weight";
-        msg = "Excellent! Maintain your healthy lifestyle.";
+        category.innerText="Normal";
 
-        calorieText = "2000 - 2400 kcal/day";
+        message.innerText=
+        "Maintain your lifestyle.";
+
+        calories.innerText=
+        "2000 - 2400 kcal/day";
 
         addDiet([
-            "Balanced diet",
-            "Vegetables and fruits",
-            "Lean protein",
-            "Healthy fats",
-            "Whole grains"
+            "Balanced Diet",
+            "Fruits",
+            "Vegetables"
         ]);
 
         addWorkout([
-            "30 min cardio",
-            "Yoga and stretching",
-            "Moderate gym workout",
-            "Cycling or jogging",
-            "Daily walking"
+            "Jogging",
+            "Cycling",
+            "Walking"
         ]);
 
     }
 
-    else if(bmi >= 25 && bmi < 30){
+    else if(bmi < 30){
 
-        categoryText = "Overweight";
-        msg = "Focus on calorie deficit and regular exercise.";
+        category.innerText="Overweight";
 
-        calorieText = "1700 - 2000 kcal/day";
+        message.innerText=
+        "Focus on weight loss.";
+
+        calories.innerText=
+        "1700 - 2000 kcal/day";
 
         addDiet([
-            "Low calorie meals",
-            "Avoid sugary drinks",
-            "Eat more salads",
-            "High fiber foods",
-            "Reduce junk food"
+            "Salads",
+            "Protein",
+            "Less Sugar"
         ]);
 
         addWorkout([
             "Running",
-            "Cycling",
-            "HIIT workouts",
-            "Jump rope",
-            "45 mins cardio"
+            "HIIT",
+            "Cardio"
         ]);
 
     }
 
     else{
 
-        categoryText = "Obese";
-        msg = "Adopt healthy habits and focus on gradual fat loss.";
+        category.innerText="Obese";
 
-        calorieText = "1500 - 1800 kcal/day";
+        message.innerText=
+        "Adopt healthier habits.";
+
+        calories.innerText=
+        "1500 - 1800 kcal/day";
 
         addDiet([
-            "Strict calorie control",
-            "Protein-rich meals",
-            "Avoid processed food",
-            "Drink more water",
-            "Eat smaller portions"
+            "Protein Rich",
+            "More Water",
+            "Small Portions"
         ]);
 
         addWorkout([
-            "Daily walking",
-            "Low impact cardio",
+            "Walking",
             "Swimming",
-            "Cycling",
-            "Light strength exercises"
+            "Cycling"
         ]);
-    }
 
-    category.innerText = categoryText;
-    message.innerText = msg;
-    calories.innerText = calorieText;
-    water.innerText = waterText;
+    }
 
     updateChart(bmi);
 
 });
 
-/* ADD DIET ITEMS */
-
 function addDiet(items){
 
-    items.forEach(item => {
+    items.forEach(item=>{
 
-        const li = document.createElement("li");
-        li.innerText = item;
+        const li=document.createElement("li");
+        li.innerText=item;
         dietPlan.appendChild(li);
 
     });
 
 }
 
-/* ADD WORKOUT ITEMS */
-
 function addWorkout(items){
 
-    items.forEach(item => {
+    items.forEach(item=>{
 
-        const li = document.createElement("li");
-        li.innerText = item;
+        const li=document.createElement("li");
+        li.innerText=item;
         workoutPlan.appendChild(li);
 
     });
 
 }
 
-/* GAUGE */
-
 function updateGauge(bmi){
 
-    let degree = (bmi / 40) * 360;
+    const degree=(bmi/40)*360;
 
-    gauge.style.background =
+    gauge.style.background=
     `conic-gradient(
         #00ff88 0deg,
         #00ff88 ${degree}deg,
-        rgba(255,255,255,0.15) ${degree}deg
+        rgba(255,255,255,.2) ${degree}deg
     )`;
 
 }
 
-/* CHART */
+const ctx=document.getElementById("bmiChart");
 
-const ctx = document.getElementById("bmiChart");
-
-const bmiChart = new Chart(ctx, {
-
-    type:'line',
-
+const bmiChart=new Chart(ctx,{
+    type:"line",
     data:{
         labels:bmiLabels,
         datasets:[{
-            label:'BMI Progress',
+            label:"BMI Progress",
             data:bmiData,
             borderWidth:3,
             tension:0.4
         }]
-    },
-
-    options:{
-        responsive:true,
-        plugins:{
-            legend:{
-                labels:{
-                    font:{
-                        size:18
-                    }
-                }
-            }
-        },
-        scales:{
-            y:{
-                beginAtZero:true
-
-            }
-        }
     }
-
 });
-
-
-/* UPDATE CHART */
 
 function updateChart(bmi){
 
-    bmiLabels.push(new Date().toLocaleTimeString());
-
+    bmiLabels.push(
+        new Date().toLocaleTimeString()
+    );
 
     bmiData.push(bmi);
 
@@ -249,10 +221,8 @@ function updateChart(bmi){
 
 }
 
-
-
 function changeTheme(theme){
 
-    document.body.className = theme;
+    document.body.className=theme;
 
 }
