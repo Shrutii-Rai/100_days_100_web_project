@@ -99,4 +99,3 @@ document.addEventListener('DOMContentLoaded', () => {
     processedText.innerHTML = "";
     comparisonCount.innerText = "Comparisons: 0";
   });
-});
