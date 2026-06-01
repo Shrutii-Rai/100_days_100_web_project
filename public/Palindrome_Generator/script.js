@@ -49,12 +49,39 @@ document.addEventListener('DOMContentLoaded', () => {
       return str;
     };
 
-    const palindromeResult = makeShortestPalindrome(val.toLowerCase());
+        comparisons++;
+
+        charBoxes[left].classList.add("active");
+        charBoxes[right].classList.add("active");
+
+        setTimeout(
+          () => {
+            if (cleanedText[left] === cleanedText[right]) {
+              charBoxes[left].classList.add("match");
+              charBoxes[right].classList.add("match");
+            } else {
+              charBoxes[left].classList.add("mismatch");
+              charBoxes[right].classList.add("mismatch");
+            }
+
+            charBoxes[left].classList.remove("active");
+            charBoxes[right].classList.remove("active");
+
+            left++;
+            right--;
+
+            comparisonCount.innerText = `Comparisons: ${comparisons}`;
+          },
+          educationalMode ? 500 : 0,
+        );
+      },
+      educationalMode ? 800 : 0,
+    );
 
     // Update UI
-    resultBox.className = 'result-container mt-4 text-center success-bg';
-    resultText.innerText = `Result: ${palindromeResult}`;
-    resultIcon.innerText = '🎯';
+    resultBox.className = "result-container mt-4 text-center success-bg";
+    resultText.innerText = `Result: ${palindromeResult} (${inputType})`;
+    resultIcon.innerText = "🎯";
 
     confetti({
       particleCount: 150,
@@ -63,10 +90,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  clearBtn.addEventListener('click', () => {
-    input.value = '';
-    resultBox.className = 'result-container mt-4 text-center';
-    resultText.innerText = 'Waiting for you to click check...';
-    resultIcon.innerText = '⌨️';
+  clearBtn.addEventListener("click", () => {
+    input.value = "";
+    resultBox.className = "result-container mt-4 text-center";
+    resultText.innerText = "Waiting for you to click generate...";
+    resultIcon.innerText = "⌨️";
+    characterContainer.innerHTML = "";
+    processedText.innerHTML = "";
+    comparisonCount.innerText = "Comparisons: 0";
   });
 });
