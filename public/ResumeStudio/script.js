@@ -1,223 +1,149 @@
 // ==========================
 // Resume Studio
 // ==========================
-
 document.addEventListener("DOMContentLoaded", () => {
 
-    // FORM INPUTS
-    const nameInput = document.getElementById("name");
-    const emailInput = document.getElementById("email");
-    const phoneInput = document.getElementById("phone");
-    const educationInput = document.getElementById("education");
-    const summaryInput = document.getElementById("summary");
-    const projectsInput = document.getElementById("projects");
-    const skillsInput = document.getElementById("skills");
-    const experienceInput = document.getElementById("experience");
+  // FORM INPUTS
+  const nameInput       = document.getElementById("name");
+  const emailInput      = document.getElementById("email");
+  const phoneInput      = document.getElementById("phone");
+  const summaryInput    = document.getElementById("summary");
+  const projectsInput   = document.getElementById("projects");
+  const skillsInput     = document.getElementById("skills");
+  const experienceInput = document.getElementById("experience");
+  const educationInput  = document.getElementById("education");
 
-    // BUTTONS
-    const previewBtn = document.getElementById("previewBtn");
-    const downloadBtn = document.getElementById("downloadBtn");
-    const modernBtn = document.getElementById("modernBtn");
-    const classicBtn = document.getElementById("classicBtn");
-    const minimalBtn = document.getElementById("minimalBtn");
-    const themeBtn = document.getElementById("themeSwitcher");
+  // PREVIEW CONTAINER
+  const resumePreview = document.getElementById("resume-preview");
 
-    // PREVIEW
-    const resumePreview = document.getElementById("resumePreview");
+  // TEMPLATE BUTTONS
+  const templateButtons = document.querySelectorAll(".template-btn");
 
-    // ATS SCORE
-    const atsScore = document.getElementById("atsScore");
+  // DOWNLOAD BUTTON
+  const downloadBtn = document.getElementById("download-btn");
 
-    // CURRENT TEMPLATE
-    let currentTemplate = "modern";
+  // Active template state
+  let activeTemplate = "modern";
 
-    // ==========================
-    // SANITIZE — XSS Prevention
-    // ==========================
+  // ==========================
+  // Helper: safe setText
+  // Sets textContent (never innerHTML) for a node
+  // ==========================
+  function setText(el, value, fallback) {
+    el.textContent = (value && value.trim()) ? value.trim() : fallback;
+  }
 
-    function sanitize(str) {
-        const div = document.createElement("div");
-        div.textContent = str;
-        return div.innerHTML;
+  // ==========================
+  // Helper: createSection
+  // Builds a section div with a heading and paragraph — no innerHTML
+  // ==========================
+  function createSection(headingText, bodyText, fallbackText) {
+    const section = document.createElement("div");
+    section.className = "resume-section";
+
+    const h3 = document.createElement("h3");
+    h3.textContent = headingText;
+
+    const p = document.createElement("p");
+    p.textContent = (bodyText && bodyText.trim()) ? bodyText.trim() : fallbackText;
+
+    section.appendChild(h3);
+    section.appendChild(p);
+    return section;
+  }
+
+  // ==========================
+  // updatePreview
+  // Rebuilds the preview entirely using DOM methods — zero innerHTML with user data
+  // ==========================
+  function updatePreview() {
+    // Clear existing preview content safely
+    while (resumePreview.firstChild) {
+      resumePreview.removeChild(resumePreview.firstChild);
     }
 
-    // ==========================
-    // ATS SCORE
-    // ==========================
+    // Apply template class
+    resumePreview.className = "resume-preview " + activeTemplate;
 
-    function updateATS() {
+    // --- HEADER ---
+    const header = document.createElement("div");
+    header.className = "resume-header";
 
-        let score = 0;
+    const h1 = document.createElement("h1");
+    setText(h1, nameInput.value, "John Doe");
 
-        if (nameInput.value.trim()) score += 10;
-        if (emailInput.value.trim()) score += 10;
-        if (phoneInput.value.trim()) score += 10;
-        if (educationInput.value.trim()) score += 15;
-        if (summaryInput.value.trim().length > 50) score += 15;
-        if (projectsInput.value.trim().length > 30) score += 15;
-        if (experienceInput.value.trim().length > 30) score += 15;
+    const contactP = document.createElement("p");
+    const emailSpan = document.createElement("span");
+    setText(emailSpan, emailInput.value, "john@example.com");
 
-        const skills = skillsInput.value
-            .split(",")
-            .filter(skill => skill.trim() !== "");
+    const separator = document.createTextNode(" | ");
 
-        if (skills.length >= 5) score += 10;
+    const phoneSpan = document.createElement("span");
+    setText(phoneSpan, phoneInput.value, "+91 9876543210");
 
-        score = Math.min(score, 100);
+    contactP.appendChild(emailSpan);
+    contactP.appendChild(separator);
+    contactP.appendChild(phoneSpan);
 
-        atsScore.textContent = score + "%";
+    header.appendChild(h1);
+    header.appendChild(contactP);
+
+    // --- SECTIONS ---
+    const summarySection    = createSection("Summary",    summaryInput.value,    "Professional summary will appear here.");
+    const projectsSection   = createSection("Projects",   projectsInput.value,   "Your projects will appear here.");
+    const skillsSection     = createSection("Skills",     skillsInput.value,     "Your skills will appear here.");
+    const experienceSection = createSection("Experience", experienceInput.value, "Your experience will appear here.");
+    const educationSection  = createSection("Education",  educationInput.value,  "Your education will appear here.");
+
+    // Append all to preview
+    resumePreview.appendChild(header);
+    resumePreview.appendChild(summarySection);
+    resumePreview.appendChild(projectsSection);
+    resumePreview.appendChild(skillsSection);
+    resumePreview.appendChild(experienceSection);
+    resumePreview.appendChild(educationSection);
+  }
+
+  // ==========================
+  // Live input listeners
+  // ==========================
+  const inputs = [
+    nameInput, emailInput, phoneInput, summaryInput,
+    projectsInput, skillsInput, experienceInput, educationInput
+  ];
+
+  inputs.forEach((input) => {
+    if (input) {
+      input.addEventListener("input", updatePreview);
     }
+  });
 
-    // ==========================
-    // UPDATE PREVIEW
-    // ==========================
+  // ==========================
+  // Template selection
+  // ==========================
+  templateButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      // Remove active class from all buttons
+      templateButtons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
 
-    function updatePreview() {
-
-        let templateClass = "modern-template";
-
-        if (currentTemplate === "modern") {
-            templateClass = "modern-template";
-        } else if (currentTemplate === "classic") {
-            templateClass = "classic-template";
-        } else if (currentTemplate === "minimal") {
-            templateClass = "minimal-template";
-        }
-
-        resumePreview.className = `resume-sheet ${templateClass}`;
-
-        resumePreview.innerHTML = `
-            <div class="resume-header">
-                <h1>${sanitize(nameInput.value) || "John Doe"}</h1>
-                <p>
-                    ${sanitize(emailInput.value) || "john@example.com"} |
-                    ${sanitize(phoneInput.value) || "+91 9876543210"}
-                </p>
-            </div>
-
-            <div class="resume-section">
-                <h3>Summary</h3>
-                <p>${sanitize(summaryInput.value) || "Professional summary will appear here."}</p>
-            </div>
-
-            <div class="resume-section">
-                <h3>Projects</h3>
-                <p>${sanitize(projectsInput.value) || "Your projects will appear here."}</p>
-            </div>
-
-            <div class="resume-section">
-                <h3>Skills</h3>
-                <p>${sanitize(skillsInput.value) || "Your skills will appear here."}</p>
-            </div>
-
-            <div class="resume-section">
-                <h3>Experience</h3>
-                <p>${sanitize(experienceInput.value) || "Your experience will appear here."}</p>
-            </div>
-
-            <div class="resume-section">
-                <h3>Education</h3>
-                <p>${sanitize(educationInput.value) || "Your education will appear here."}</p>
-            </div>
-        `;
-
-        updateATS();
-    }
-
-    // ==========================
-    // INPUT LISTENERS
-    // ==========================
-
-    const inputs = [
-        nameInput,
-        emailInput,
-        phoneInput,
-        educationInput,
-        summaryInput,
-        projectsInput,
-        skillsInput,
-        experienceInput
-    ];
-
-    inputs.forEach(input => {
-        input.addEventListener("input", updatePreview);
+      // Update active template
+      activeTemplate = btn.dataset.template || "modern";
+      updatePreview();
     });
+  });
 
-    // ==========================
-    // TEMPLATE BUTTONS
-    // ==========================
-
-    modernBtn.addEventListener("click", () => {
-        currentTemplate = "modern";
-        modernBtn.classList.add("active");
-        classicBtn.classList.remove("active");
-        minimalBtn.classList.remove("active");
-        updatePreview();
+  // ==========================
+  // Download (print to PDF)
+  // ==========================
+  if (downloadBtn) {
+    downloadBtn.addEventListener("click", () => {
+      window.print();
     });
+  }
 
-    classicBtn.addEventListener("click", () => {
-        currentTemplate = "classic";
-        classicBtn.classList.add("active");
-        modernBtn.classList.remove("active");
-        minimalBtn.classList.remove("active");
-        updatePreview();
-    });
-
-    minimalBtn.addEventListener("click", () => {
-        currentTemplate = "minimal";
-        minimalBtn.classList.add("active");
-        modernBtn.classList.remove("active");
-        classicBtn.classList.remove("active");
-        updatePreview();
-    });
-
-    // ==========================
-    // PREVIEW BUTTON
-    // ==========================
-
-    previewBtn.addEventListener("click", () => {
-        updatePreview();
-        resumePreview.scrollIntoView({ behavior: "smooth" });
-    });
-
-    // ==========================
-    // THEME TOGGLE
-    // ==========================
-
-    themeBtn.addEventListener("click", () => {
-        document.body.classList.toggle("light-mode");
-        if (document.body.classList.contains("light-mode")) {
-            themeBtn.textContent = "☀️ Light Mode";
-        } else {
-            themeBtn.textContent = "🌙 Dark Mode";
-        }
-    });
-
-    // ==========================
-    // PDF DOWNLOAD
-    // ==========================
-
-    downloadBtn.addEventListener("click", async () => {
-        try {
-            const canvas = await html2canvas(resumePreview, { scale: 2 });
-            const imgData = canvas.toDataURL("image/png");
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF("p", "mm", "a4");
-            const pageWidth = pdf.internal.pageSize.getWidth();
-            const imgWidth = pageWidth;
-            const imgHeight = (canvas.height * imgWidth) / canvas.width;
-            pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-            const filename = (nameInput.value || "resume")
-                .toLowerCase()
-                .replace(/\s+/g, "_");
-            pdf.save(`${filename}.pdf`);
-        } catch (error) {
-            console.error(error);
-            alert("Failed to generate PDF.");
-        }
-    });
-
-    // Initial render
-    updatePreview();
-
+  // ==========================
+  // Initial render
+  // ==========================
+  updatePreview();
 });
