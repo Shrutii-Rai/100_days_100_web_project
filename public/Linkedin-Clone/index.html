@@ -737,6 +737,46 @@
           }
         });
       }
+      // ── Like Button Toggle ─────────────────────────────────────────
+document.addEventListener('click', function (e) {
+  var likeLink = e.target.closest('.post-activity-link');
+  if (!likeLink) return;
+
+  var span = likeLink.querySelector('span');
+  if (!span || span.textContent.trim() !== 'Like') return;
+
+  var post = likeLink.closest('.post');
+  var likedUsersSpan = post ? post.querySelector('.liked-users') : null;
+
+  if (likeLink.classList.contains('liked')) {
+    // Unlike
+    likeLink.classList.remove('liked');
+    likeLink.style.color = '';
+    likeLink.style.fontWeight = '';
+    if (likedUsersSpan) {
+      var current = parseInt(likedUsersSpan.dataset.count) || 0;
+      var newCount = Math.max(0, current - 1);
+      likedUsersSpan.dataset.count = newCount;
+      likedUsersSpan.textContent = newCount === 0 ? 'Be the first to like' : newCount + ' others';
+    }
+  } else {
+    // Like
+    likeLink.classList.add('liked');
+    likeLink.style.color = '#0a66c2';
+    likeLink.style.fontWeight = '600';
+    if (likedUsersSpan) {
+      var text = likedUsersSpan.textContent;
+      var num = parseInt(text) || 0;
+      if (!likedUsersSpan.dataset.count) {
+        likedUsersSpan.dataset.count = num;
+      }
+      var updatedCount = (parseInt(likedUsersSpan.dataset.count) || 0) + 1;
+      likedUsersSpan.dataset.count = updatedCount;
+      likedUsersSpan.textContent = 'You and ' + updatedCount + ' others';
+    }
+  }
+});
+// ──────────────────────────────────────────────────────────────
     </script>
 
     <!-- Mobile bottom navigation -->
