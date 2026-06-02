@@ -63,6 +63,48 @@ body{
     gap:24px;
 }
 
+/* BACK TO HOME BUTTON */
+
+.back-home-btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,0.08);
+
+    color:white;
+
+    text-decoration:none;
+
+    font-size:14px;
+    font-weight:500;
+
+    transition:0.3s;
+
+    border:1px solid rgba(255,255,255,0.12);
+
+    width:fit-content;
+}
+
+.back-home-btn:hover{
+    background:rgba(255,255,255,0.15);
+    transform:translateX(-3px);
+}
+
+body.light-mode .back-home-btn{
+    background:#e5e7eb;
+    color:#111827;
+    border:1px solid #d1d5db;
+}
+
+body.light-mode .back-home-btn:hover{
+    background:#d1d5db;
+}
+
 .logo{
     display:flex;
     align-items:center;
