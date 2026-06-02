@@ -1105,3 +1105,55 @@ a:hover {
 .post-activity-link.liked span {
   color: #0a66c2 !important;
 }
+/* 3-dot menu for posts */
+.post-menu-wrapper {
+  position: relative;
+  margin-left: auto;
+}
+
+.three-dot-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #555;
+  padding: 0 6px;
+  line-height: 1;
+}
+
+.post-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 28px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  z-index: 999;
+  min-width: 130px;
+}
+
+.post-dropdown.open {
+  display: block;
+}
+
+.post-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.post-dropdown button:hover {
+  background: #f0f0f0;
+  border-radius: 8px;
+}
+
+.delete-btn {
+  color: #cc0000 !important;
+}
