@@ -1096,3 +1096,12 @@ a:hover {
     /* hide sort control on mobile */
     .sort-by { display: none; }
 }
+/* Like Button Liked State */
+.post-activity-link.liked {
+  color: #0a66c2 !important;
+  font-weight: 600 !important;
+}
+
+.post-activity-link.liked span {
+  color: #0a66c2 !important;
+}
