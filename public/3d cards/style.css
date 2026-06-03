@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/Main
 *,
 *::before,
 *::after {
@@ -34,18 +30,10 @@
 body {
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-  align-items: center;
-  justify-content: flex-start;
-  min-height: 100vh;
-  overflow-x: hidden;
-  overflow-y: auto;
-=======
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   overflow: hidden;
->>>>>>> upstream/Main
   background: radial-gradient(
     circle at center,
     var(--bg-from) 0%,
@@ -55,10 +43,6 @@ body {
   font-family: 'DM Sans', Arial, sans-serif;
   perspective: 1800px;
   transition: background 0.5s ease;
-<<<<<<< HEAD
-  padding: 40px 16px;
-=======
->>>>>>> upstream/Main
 }
 
 .ambient-light {
@@ -75,11 +59,7 @@ body {
   content: '';
   width: 800px;
   height: 800px;
-<<<<<<< HEAD
-  background: radial-gradient(circle, var(--ambient-glow, var(--ambient)), transparent 70%);
-=======
   background: radial-gradient(circle, var(--ambient), transparent 70%);
->>>>>>> upstream/Main
   filter: blur(90px);
   animation: pulseGlow 6s ease-in-out infinite;
 }
@@ -97,23 +77,15 @@ body {
 }
 
 .hero-content {
-<<<<<<< HEAD
-  position: relative;
-=======
   position: fixed;
   top: clamp(16px, 5vh, 48px);
   left: 50%;
   transform: translateX(-50%);
->>>>>>> upstream/Main
   text-align: center;
   z-index: 50;
   width: 100%;
   padding: 0 16px;
-<<<<<<< HEAD
-  margin-bottom: 20px;
-=======
   pointer-events: none;
->>>>>>> upstream/Main
 }
 
 .hero-content h1 {
@@ -143,16 +115,10 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-<<<<<<< HEAD
-  margin-top: 60px;
-  margin-bottom: 90px;
-  height: calc(var(--card-h) * 1.5);
-=======
   /* push down below hero text */
   margin-top: clamp(90px, 14vh, 140px);
   /* keep away from controls */
   margin-bottom: clamp(120px, 18vh, 160px);
->>>>>>> upstream/Main
 }
 
 .box {
@@ -177,36 +143,6 @@ body {
   inset: 0;
   transform-origin: center;
   transform-style: preserve-3d;
-<<<<<<< HEAD
-  transform: rotateY(calc(var(--i) * var(--angle-step, 45deg))) translateZ(var(--radius));
-  transition:
-    transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
-    box-shadow 0.45s ease,
-    opacity 0.45s ease,
-    filter 0.45s ease;
-  border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
-  -webkit-box-reflect: below 2px
-    linear-gradient(transparent, rgba(0, 0, 0, 0.18));
-  opacity: 0.55;
-  filter: grayscale(35%) brightness(0.75);
-}
-
-.box span.active-card {
-  opacity: 1;
-  filter: grayscale(0%) brightness(1);
-}
-
-.box span:hover {
-  transform: rotateY(calc(var(--i) * var(--angle-step, 45deg)))
-    translateZ(calc(var(--radius) + 42px)) scale(1.06);
-  box-shadow:
-    0 0 25px rgba(255, 255, 255, 0.18),
-    0 0 60px rgba(255, 255, 255, 0.1),
-    0 20px 50px rgba(0, 0, 0, 0.75);
-  opacity: 1;
-  filter: grayscale(0%) brightness(1.05);
-=======
   transform: rotateY(calc(var(--i) * 45deg)) translateZ(var(--radius));
   transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
   -webkit-box-reflect: below 2px
@@ -216,7 +152,6 @@ body {
 .box span:hover {
   transform: rotateY(calc(var(--i) * 45deg))
     translateZ(calc(var(--radius) + 42px)) scale(1.06);
->>>>>>> upstream/Main
 }
 
 .box span img {
@@ -225,18 +160,6 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-<<<<<<< HEAD
-  border: 2px solid var(--card-border);
-  transition: border-color 0.4s ease;
-}
-
-.image-wrapper {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-=======
   border-radius: 20px;
   border: 2px solid var(--card-border);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.55);
@@ -248,7 +171,6 @@ body {
 .box span {
   overflow: hidden;
   border-radius: 20px;
->>>>>>> upstream/Main
 }
 
 .box span img {
@@ -257,13 +179,10 @@ body {
 
 .box span:hover img {
   border-color: var(--card-border-hover);
-<<<<<<< HEAD
-=======
   box-shadow:
     0 0 25px rgba(255, 255, 255, 0.18),
     0 0 60px rgba(255, 255, 255, 0.1),
     0 20px 50px rgba(0, 0, 0, 0.75);
->>>>>>> upstream/Main
 }
 
 .box span h2 {
@@ -297,25 +216,15 @@ body {
 }
 
 .controls {
-<<<<<<< HEAD
-  position: relative;
-=======
   position: fixed;
   bottom: clamp(16px, 4vh, 40px);
   left: 50%;
   transform: translateX(-50%);
->>>>>>> upstream/Main
   display: flex;
   gap: 12px;
   z-index: 100;
   flex-wrap: wrap;
   justify-content: center;
-<<<<<<< HEAD
-  margin-top: 20px;
-  margin-bottom: 40px;
-  max-width: 90%;
-=======
->>>>>>> upstream/Main
 }
 
 .glass-panel {
@@ -434,23 +343,10 @@ body.light-theme {
   );
 }
 
-<<<<<<< HEAD
-body.light-theme .box span {
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
-}
-
-body.light-theme .box span:hover {
-  box-shadow:
-    0 0 20px rgba(0, 0, 0, 0.08),
-    0 15px 45px rgba(0, 0, 0, 0.22);
-}
-
-=======
 body.light-theme .box span img {
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.18);
 }
 
->>>>>>> upstream/Main
 body.light-theme .ctrl-btn::after {
   border-color: transparent;
 }
@@ -493,14 +389,8 @@ body.light-theme .ctrl-btn:hover {
   }
 
   .scene {
-<<<<<<< HEAD
-    margin-top: 40px;
-    margin-bottom: 50px;
-    height: calc(var(--card-h) * 1.5);
-=======
     margin-top: clamp(70px, 12vh, 110px);
     margin-bottom: clamp(140px, 22vh, 180px);
->>>>>>> upstream/Main
   }
 }
 
@@ -534,13 +424,6 @@ body.light-theme .ctrl-btn:hover {
   }
 }
 
-<<<<<<< HEAD
-/* =========================
-   FALLBACK IMAGE STYLING
-========================= */
-
-=======
->>>>>>> upstream/Main
 .fallback-image {
   object-fit: contain !important;
   background: linear-gradient(
@@ -559,19 +442,6 @@ body.light-theme .ctrl-btn:hover {
   justify-content: center;
 }
 
-<<<<<<< HEAD
-/* =========================
-   IMAGE LOAD IMPROVEMENTS
-========================= */
-
-.box span img {
-  transition: border-color 0.4s ease;
-}
-
-/* =========================
-   PREMIUM FALLBACK CARD UI
-========================= */
-=======
 .box span img {
   transition:
     transform 0.4s ease,
@@ -595,7 +465,6 @@ body.light-theme .ctrl-btn:hover {
   width: 100%;
   height: 100%;
 }
->>>>>>> upstream/Main
 
 .fallback-card {
   position: absolute;
@@ -1110,10 +979,3 @@ body.light-theme .ctrl-btn:hover {
     font-size: 1.1rem;
   }
 }
-<<<<<<< HEAD
-
-/* =========================
-   FALLBACK IMAGE STYLING
->>>>>>> upstream/main
-=======
->>>>>>> upstream/Main
