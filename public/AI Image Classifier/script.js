@@ -17,16 +17,29 @@ let isModelLoaded = false;
 async function loadModel() {
     resultDiv.innerHTML = `
         <p class="loading">
-            ⏳ Loading AI Model...
+            Loading AI Model...
         </p>
     `;
-    model = await mobilenet.load();
-    isModelLoaded = true;
-    resultDiv.innerHTML = `
-        <p class="loading">
-            ✅ AI Model Ready
-        </p>
-    `;
+
+    try {
+        model = await mobilenet.load();
+
+        isModelLoaded = true;
+
+        resultDiv.innerHTML = `
+            <p class="loading">
+                AI Model Ready
+            </p>
+        `;
+    } catch (error) {
+        console.error('Failed to load MobileNet model:', error);
+
+        resultDiv.innerHTML = `
+            <p class="loading">
+                Failed to load AI Model
+            </p>
+        `;
+    }
 }
 loadModel();
 document.querySelector(".upload-btn")
