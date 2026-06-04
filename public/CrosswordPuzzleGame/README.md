@@ -1,3 +1,4 @@
+
 # 🧩 Crossword Puzzle Game
 
 ## 🚀 Overview
@@ -105,7 +106,7 @@ Start solving puzzles 🧩 and aim for the trophy 🏆.
 
 ## 📸 Screenshot
 
-_Add a screenshot of your game here._
+<img width="1848" height="1445" alt="crossword puzzle" src="https://github.com/user-attachments/assets/45be0599-f48f-4e3e-a56c-15c945f60166" />
 
 ---
 
