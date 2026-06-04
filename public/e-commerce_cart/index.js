@@ -503,6 +503,200 @@ function applyFilterSort() {
     c.classList.remove("visible");
   });
 
+const buyBtn = document.querySelector('.btn-buy');
+const checkoutModal = document.querySelector('.checkout-modal');
+const closeCheckout = document.querySelector('.close-checkout');
+const submitOrder = document.querySelector('#submit-order');
+
+buyBtn.addEventListener('click', () => {
+  checkoutModal.style.display = 'flex';
+});
+
+closeCheckout.addEventListener('click', () => {
+  checkoutModal.style.display = 'none';
+});
+
+submitOrder.addEventListener('click', () => {
+
+  const fullName = document.querySelector('#full-name').value;
+  const address = document.querySelector('#address').value;
+  const phone = document.querySelector('#phone').value;
+  const payment = document.querySelector('#payment-method').value;
+
+  if(fullName === '' || address === '' || phone === '' || payment === ''){
+    alert('Please fill all fields');
+    return;
+  }
+
+  alert('Order placed successfully!');
+    showToast('Please fill all fields');
+    return;
+  }
+
+  showToast('Order placed successfully!');
+
+  checkoutModal.style.display = 'none';
+});
+const searchInput = document.querySelector('#search-input');
+
+searchInput.addEventListener('keyup', () => {
+
+  const searchValue = searchInput.value.toLowerCase();
+
+  const products = document.querySelectorAll('.shoe-box');
+
+  let matchFound = false;
+
+  products.forEach((product) => {
+
+    const title = product
+      .querySelector('.shoe-title')
+      .textContent
+      .toLowerCase();
+
+    if(title.includes(searchValue)){
+
+      product.style.display = 'block';
+      matchFound = true;
+
+    } else {
+
+      product.style.display = 'none';
+
+    }
+
+  });
+
+  const noProductsMessage =
+    document.querySelector('#no-products-message');
+
+  if(matchFound){
+    noProductsMessage.style.display = 'none';
+  } else {
+    noProductsMessage.style.display = 'block';
+  }
+
+});
+const submitOrder = document.querySelector('#submit-order');
+const clearCartBtn = document.querySelector('.clear-cart-btn');
+clearCartBtn.addEventListener('click', () => {
+
+  const cartContent = document.querySelector('.cart-content');
+
+  cartContent.innerHTML = '';
+
+  itemList = [];
+
+  localStorage.removeItem("cartItems");
+
+  updateTotal();
+
+  showToast("Cart cleared");
+
+});
+// Dark Mode
+
+const darkModeBtn = document.querySelector('#dark-mode-btn');
+
+if(localStorage.getItem("theme") === "dark"){
+  document.body.classList.add('dark-mode');
+
+  if(darkModeBtn){
+    darkModeBtn.innerText = "☀";
+  }
+}
+
+if(darkModeBtn){
+
+  darkModeBtn.addEventListener('click', () => {
+
+    document.body.classList.toggle('dark-mode');
+
+    if(document.body.classList.contains('dark-mode')){
+
+      localStorage.setItem("theme", "dark");
+
+      darkModeBtn.innerText = "☀";
+
+    } else {
+
+      localStorage.setItem("theme", "light");
+
+      darkModeBtn.innerText = "🌙";
+
+    }
+
+  });
+
+}
+// Quick View Popup
+
+const quickViewModal =
+  document.querySelector('.quick-view-modal');
+
+const quickViewImg =
+  document.querySelector('#quick-view-img');
+
+const quickViewTitle =
+  document.querySelector('#quick-view-title');
+
+const quickViewPrice =
+  document.querySelector('#quick-view-price');
+
+const closeQuickView =
+  document.querySelector('.close-quick-view');
+
+const quickViewImages =
+  document.querySelectorAll('.shoe-img');
+
+quickViewImages.forEach((image) => {
+
+  image.addEventListener('click', () => {
+
+    const shoeBox = image.closest('.shoe-box');
+
+    const title =
+      shoeBox.querySelector('.shoe-title').innerText;
+
+    const price =
+      shoeBox.querySelector('.shoe-price').innerText;
+
+    const imgSrc = image.src;
+
+    quickViewImg.src = imgSrc;
+
+    quickViewTitle.innerText = title;
+
+    quickViewPrice.innerText = price;
+
+    quickViewModal.style.display = 'flex';
+
+  });
+
+});
+
+closeQuickView.addEventListener('click', () => {
+
+  quickViewModal.style.display = 'none';
+
+});
+
+window.addEventListener('click', (e) => {
+
+  if(e.target === quickViewModal){
+
+    quickViewModal.style.display = 'none';
+
+  }
+
+});
+document.getElementById('profile-close').addEventListener('click', () => {
+  profileModal.style.display = 'none';
+  // CHECKOUT modal
+  const buyBtns = document.querySelectorAll('.btn-buy');
+  const checkoutModal = document.querySelector('.checkout-modal');
+  const closeCheckout = document.querySelector('.close-checkout');
+  const submitOrder = document.getElementById('submit-order');
   if (!visible.length) {
     noResults.style.display = "block";
     return;
