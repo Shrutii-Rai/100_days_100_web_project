@@ -7,7 +7,8 @@ import { ShepherdJourneyProvider, useShepherd } from "react-shepherd";
 function page() {
   const [categories, setCategories] = useState([]);
   const [showResults, setShowResults] = useState(false);
-    const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
+
   const handleSearchFocus = () => {
     setShowResults(true);
   };
@@ -18,7 +19,7 @@ function page() {
     }, 200);
   };
 
-  useEffect(() => {
+  const fetchCategories = () => {
     setLoading(true);
     fetch("https://www.themealdb.com/api/json/v1/1/categories.php")
       .then((res) => res.json())
@@ -30,24 +31,26 @@ function page() {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-      
-      
+  };
+
+  useEffect(() => {
+    fetchCategories();
   }, []);
 
   function StartTour() {
     const shepherd = useShepherd();
     const tour = new shepherd.Tour({
       useModalOverlay: true,
-        modalOverlayOpeningPadding: 8,
-        modalOverlayOpeningRadius: 16,
+      modalOverlayOpeningPadding: 8,
+      modalOverlayOpeningRadius: 16,
       defaultStepOptions: {
-  cancelIcon: {
-    enabled: true,
-  },
-  scrollTo: false,
-  classes:
-    "bg-white shadow-2xl rounded-2xl border border-orange-200 p-6 max-w-md",
-},
+        cancelIcon: {
+          enabled: true,
+        },
+        scrollTo: false,
+        classes:
+          "bg-white shadow-2xl rounded-2xl border border-orange-200 p-6 max-w-md",
+      },
     });
 
     const Steps = [
@@ -57,7 +60,7 @@ function page() {
         buttons: [
           {
             classes:
-"bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all duration-300 ", // Added mr-2 for margin-right
+              "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition-all duration-300 ",
             text: "🚪 Exit",
             action() {
               return this.cancel();
@@ -65,7 +68,7 @@ function page() {
           },
           {
             classes:
-"bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-all duration-300 ", // Used btn-sm for smaller buttons
+              "bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-all duration-300 ",
             text: "➡️ Next",
             action() {
               return this.next();
@@ -73,31 +76,31 @@ function page() {
           },
         ],
         title:
-"<span style='font-size:22px;font-weight:700;color:#ea580c;'>👋 Welcome to Recipe Genie</span>", // Added classes for larger, bold title
+          "<span style='font-size:22px;font-weight:700;color:#ea580c;'>👋 Welcome to Recipe Genie</span>",
         text: [
-  "<p style='font-size:16px;line-height:1.7;color:#444;'>Recipe Genie helps you discover <b>delicious recipes</b> from around the world 🍜</p>",
-],
+          "<p style='font-size:16px;line-height:1.7;color:#444;'>Recipe Genie helps you discover <b>delicious recipes</b> from around the world 🍜</p>",
+        ],
       },
       {
         id: "search",
         attachTo: { element: "#searchBar", on: "bottom" },
         buttons: [
           {
-            classes: "btn btn-error btn-sm mr-2 ", // Added mr-2 for margin-right
+            classes: "btn btn-error btn-sm mr-2 ",
             text: "🚪 Exit",
             action() {
               return this.cancel();
             },
           },
           {
-            classes: "btn btn-success btn-sm ", // Used btn-sm for smaller buttons
+            classes: "btn btn-success btn-sm ",
             text: "➡️ Next",
             action() {
               return this.next();
             },
           },
         ],
-        title: "<span className='text-lg font-bold'>🔍 Search</span>", // Added classes for larger, bold title
+        title: "<span className='text-lg font-bold'>🔍 Search</span>",
         text: [
           "<p>Use the search bar to find <b>your favorite meals</b> and their recipes. Happy cooking! 🥘</p>",
         ],
@@ -107,21 +110,21 @@ function page() {
         attachTo: { element: "#randomMeal", on: "bottom" },
         buttons: [
           {
-            classes: "btn btn-error btn-sm mr-2 ", // Added mr-2 for margin-right
+            classes: "btn btn-error btn-sm mr-2 ",
             text: "🚪 Exit",
             action() {
               return this.cancel();
             },
           },
           {
-            classes: "btn btn-success btn-sm ", // Used btn-sm for smaller buttons
+            classes: "btn btn-success btn-sm ",
             text: "➡️ Next",
             action() {
               return this.next();
             },
           },
         ],
-        title: "<span className='text-lg font-bold'>🎲 Random Meal</span>", // Added classes for larger, bold title
+        title: "<span className='text-lg font-bold'>🎲 Random Meal</span>",
         text: [
           "<p>Feeling adventurous? Click here to get a <b>random meal recipe</b> and surprise yourself! 🍛</p>",
         ],
@@ -131,21 +134,21 @@ function page() {
         attachTo: { element: ".categories", on: "bottom" },
         buttons: [
           {
-            classes: "btn btn-error btn-sm mr-2 ", // Added mr-2 for margin-right
+            classes: "btn btn-error btn-sm mr-2 ",
             text: "🚪 Exit",
             action() {
               return this.cancel();
             },
           },
           {
-            classes: "btn btn-success btn-sm ", // Used btn-sm for smaller buttons
+            classes: "btn btn-success btn-sm ",
             text: "🎉 Finish",
             action() {
               return this.complete();
             },
           },
         ],
-        title: "<span className='text-lg font-bold'>📚 Categories</span>", // Added classes for larger, bold title
+        title: "<span className='text-lg font-bold'>📚 Categories</span>",
         text: [
           "<p>Explore our <b>diverse categories</b> to find the perfect meal for any occasion. Bon appétit! 🍽️</p>",
         ],
@@ -154,16 +157,8 @@ function page() {
 
     tour.addSteps(Steps);
 
-    if (loading) {
-  return (
-    <div className="flex justify-center items-center h-screen">
-      <span className="loading loading-spinner loading-lg text-orange-500"></span>
-    </div>
-  );
-}
-
     return (
-      <button 
+      <button
         className="
         mt-6
         bg-white
@@ -178,9 +173,34 @@ function page() {
         duration-300
         border-none
         "
-       onClick={tour.start}>
+        onClick={tour.start}
+      >
         Start Tour {"->"}
       </button>
+    );
+  }
+
+  // ✅ FIX: Loading screen with working Restart button — moved outside StartTour
+  if (loading) {
+    return (
+      <div
+        className="flex flex-col justify-center items-center h-screen bg-cover bg-center"
+        style={{
+          backgroundImage:
+            "url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200')",
+        }}
+      >
+        <div className="bg-black/50 p-10 rounded-3xl flex flex-col items-center gap-6">
+          <span className="text-white text-3xl font-bold">Loading Recipe...</span>
+          <span className="loading loading-spinner loading-lg text-orange-400"></span>
+          <button
+            onClick={fetchCategories}
+            className="mt-4 bg-white text-orange-500 font-semibold px-6 py-3 rounded-full shadow-md hover:scale-105 transition-all duration-300 border-none"
+          >
+            Restart
+          </button>
+        </div>
+      </div>
     );
   }
 
@@ -235,15 +255,17 @@ function page() {
 
           <div className="text-xl md:text-2xl text-secondary mb-6 mt-10 md:mt-16 flex items-center justify-center space-x-2">
             <span className="text-4xl md:text-5xl font-bold leading-tight">
-  Discover Delicious Recipes & Culinary Ideas 🍜
-</span>
-<p className="mt-4 text-lg md:text-xl text-orange-100 max-w-2xl">
-  Explore recipes from around the world and discover your next favorite meal.
-</p>
+              Discover Delicious Recipes & Culinary Ideas 🍜
+            </span>
+            <p className="mt-4 text-lg md:text-xl text-orange-100 max-w-2xl">
+              Explore recipes from around the world and discover your next favorite meal.
+            </p>
           </div>
 
           <Link href="/random">
-            <button id="randomMeal" className="
+            <button
+              id="randomMeal"
+              className="
 bg-white
 text-orange-500
 font-semibold
@@ -256,7 +278,8 @@ hover:bg-orange-100
 transition-all
 duration-300
 border-none
-">
+"
+            >
               🎲 Enjoy a Surprise Meal
             </button>
           </Link>
@@ -264,7 +287,8 @@ border-none
 
         <div className="divider"></div>
 
-        <h1 className="
+        <h1
+          className="
 categories
 text-3xl
 md:text-4xl
@@ -272,12 +296,15 @@ font-bold
 text-gray-800
 mb-14
 text-center
-">
+"
+        >
           🍽️ Browse Recipe Categories
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {categories.map((category) => (
-            <div key={category.idCategory} className="
+            <div
+              key={category.idCategory}
+              className="
 group
 bg-white
 rounded-3xl
@@ -287,7 +314,8 @@ hover:shadow-2xl
 hover:-translate-y-2 hover:scale-[1.02]
 transition-all
 duration-300
-">
+"
+            >
               <figure>
                 <img
                   src={category.strCategoryThumb}
@@ -320,7 +348,8 @@ duration-300
                   className="card-actions justify-end"
                   href={`/category/${category.strCategory}`}
                 >
-                  <button className="
+                  <button
+                    className="
                     bg-orange-500
                     hover:bg-orange-600
                     text-white
@@ -328,7 +357,8 @@ duration-300
                     px-5    
                     border-none
                     shadow-md
-                    ">
+                    "
+                  >
                     Explore
                   </button>
                 </Link>
