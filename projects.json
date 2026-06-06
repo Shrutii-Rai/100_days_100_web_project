@@ -1902,5 +1902,21 @@
     "techStack": ["ui","game","html","css","js"],
     "difficulty": "intermediate",
     "projectPath": "./public/Rock_Paper_Scissors/index.html"
+  },
+  {
+    "projectNo": 209,
+    "projectName": "AI Data Analyst",
+    "projectType": "Tool",
+    "projectDesc": "Upload CSV datasets and receive AI-powered exploratory data analysis, visualizations, correlation heatmaps, machine learning recommendations, AI-generated insights, and interactive dataset Q&A.",
+    "techStack": [
+      "javascript",
+      "ai",
+      "machine-learning",
+      "data-analysis",
+      "charts",
+      "api"
+    ],
+    "difficulty": "advanced",
+    "projectPath": "./public/AI-Data-Analyst/"
   }
 ]
