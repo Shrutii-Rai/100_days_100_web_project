@@ -53,12 +53,16 @@ loadTextBtn.addEventListener('click', () => {
     const newText = customTextInput.value.trim();
 
     if (newText) {
-        const paragraphs = newText.split('\n')
-            .filter(text => text.trim() !== '')
-            .map(text => `<p>${text}</p>`)
-            .join('');
+        article.innerHTML = '';
 
-        article.innerHTML = paragraphs;
+        newText
+            .split('\n')
+            .filter(text => text.trim() !== '')
+            .forEach(text => {
+                const p = document.createElement('p');
+                p.textContent = text;
+                article.appendChild(p);
+            });
         localStorage.setItem('highlightedArticle', article.innerHTML);
         customTextInput.value = '';
     }
