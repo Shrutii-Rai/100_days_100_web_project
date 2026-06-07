@@ -1419,7 +1419,7 @@
       "js"
     ],
     "difficulty": "intermediate",
-    "projectPath": "./public/code-visualizer-playground/index.html"
+    "projectPath": "./public/virtual-playground/index.html"
   },
   {
     "projectNo": 120,
@@ -1516,7 +1516,7 @@
       "javascript"
     ],
     "difficulty": "intermediate",
-    "projectPath": "./public/Particle Wave Animation/index.html"
+    "projectPath": "./public/particle-wave-animation/index.html"
   },
   {
     "projectNo": 128,
@@ -2180,7 +2180,7 @@
       "css"
     ],
     "difficulty": "advanced",
-    "projectPath": "./public/InterviewSimulator/index.html"
+    "projectPath": "./public/interview-prep-hub/index.html"
   },
   {
     "projectNo": 178,
@@ -2396,7 +2396,7 @@
       "javascript"
     ],
     "difficulty": "intermediate",
-    "projectPath": "./public/story/main.html"
+    "projectPath": "./public/story/story.html"
   },
   {
     "projectNo": 193,
