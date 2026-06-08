@@ -2681,8 +2681,7 @@
       "css"
     ],
     "difficulty": "intermediate",
-    "projectDesc": "A responsive photography portfolio and gallery website designed to showcase visual content through structured layouts, image presentation sections, and modern styling. Features an engaging user interface optimized for desktop and mobile viewing.",
-    "projectType": "Website"
+    "projectDesc": "A responsive photography portfolio and gallery website designed to showcase visual content through structured layouts, image presentation sections, and modern styling. Features an engaging user interface optimized for desktop and mobile viewing."
   },
   {
     "projectNo": 214,
@@ -2797,5 +2796,18 @@
     ],
     "difficulty": "intermediate",
     "projectPath": "./public/AI-Tools-Hub/index.html"
+  },
+    {
+    "projectNo": 222,
+    "projectName": "Bubble Game",
+    "projectType": "Web Application",
+    "projectDesc": "An interactive bubble-clicking game where players must quickly hit bubbles matching the target number before the timer runs out. Score points by selecting the correct bubbles and test your speed and accuracy.",
+    "techStack": [
+      "html",
+      "css",
+      "javascript"
+    ],
+    "difficulty": "intermediate",
+    "projectPath": "./public/Bubble-Game/index.html"
   }
 ]
