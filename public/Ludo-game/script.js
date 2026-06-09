@@ -53,7 +53,9 @@ let NAMES = [...DEFAULT_NAMES];
 let vsAI = false, cur = 0, rolled = false, diceVal = 0, gameOver = false;
 let timerID = null, timerSec = 30;
 let tokens;
-let lastVsAI = false; // remember mode for "play again"
+let lastVsAI = false;
+let totalPlayers = 4;        // NEW: tracks how many players are active
+let selectedPlayerCount = 4; // NEW: set by goToNames()
 
 // ── SCREEN MANAGER ────────────────────────────────────
 function showScreen(id){
@@ -91,7 +93,7 @@ function startGame(ai, count){
   }
 
   // Update name displays in panels
-  ['pp0name','pp1name','pp2name','pp3name'].forEach((id,i)=>{
+  ['pp0name','pp1name','pp2name','pp3name'].forEach((id,i) => {
     document.getElementById(id).textContent = NAMES[i];
   });
 
@@ -210,29 +212,26 @@ function render(){
 
 // ── MOVEMENT ──────────────────────────────────────────
 function canMove(pi,ti){
-  const s=tokens[pi][ti].step;
-  if(s===57)return false;
-  if(s===-1)return diceVal===6;
-  //Exact match required
-  if (s + diceVal > 57) return false;
+  const s = tokens[pi][ti].step;
+  if(s === 57) return false;
+  if(s === -1) return diceVal === 6;
+  if(s + diceVal > 57) return false;
   return true;
 }
-function anyCanMove(pi){return tokens[pi].some((_,ti)=>canMove(pi,ti));}
+function anyCanMove(pi){ return tokens[pi].some((_,ti) => canMove(pi,ti)); }
 
 function doMove(pi,ti){
-  if(!rolled||cur!==pi||gameOver)return;
-  if(!canMove(pi,ti))return;
-  const tok=tokens[pi][ti];
-  const nm=NAMES[pi];
-  if(tok.step===-1){tok.step=0;addLog(nm+': Token '+(ti+1)+' started moving from the Yard🏠',pi);}
-  else{
-    if(tok.step + diceVal <= 57)
-      tok.step += diceVal;
-    else
-    return; //invalid move
-}
-  addLog(nm+': Token '+(ti+1)+' → step '+tok.step,pi);
-  if(tok.step===57){
+  if(!rolled || cur !== pi || gameOver) return;
+  if(!canMove(pi,ti)) return;
+  const tok = tokens[pi][ti];
+  const nm = NAMES[pi];
+  if(tok.step === -1){tok.step = 0; addLog(nm+': Token '+(ti+1)+' started moving from the Yard🏠',pi);}
+  else {
+    if(tok.step + diceVal <= 57) tok.step += diceVal;
+    else return;
+  }
+  addLog(nm+': Token '+(ti+1)+' → step '+tok.step, pi);
+  if(tok.step === 57){
     addLog(nm+': Token '+(ti+1)+' recieved! 🎉',pi);
     playSound('tok'); render(); updatePanels();
     if(checkWin(pi)) return;
@@ -268,9 +267,9 @@ function nextActivePlayer(pi){
 }
 
 function afterMove(pi){
-  rolled=false;
-  if(diceVal===6&&!gameOver){
-    addLog(NAMES[pi]+': 6 → one more  chance! 🎲',pi);
+  rolled = false;
+  if(diceVal === 6 && !gameOver){
+    addLog(NAMES[pi]+': 6 → one more chance! 🎲',pi);
     setStatus(NAMES[pi]+': 6 - one more chance!');
     resetTimer();
     if(vsAI && pi !== 0) setTimeout(() => aiTurn(pi), 800);
@@ -331,10 +330,9 @@ function aiTurn(pi){
 
 // ── WIN ───────────────────────────────────────────────
 function checkWin(pi){
-  if(tokens[pi].every(t=>t.step===57)){
-    gameOver=true;clearInterval(timerID);
-    setTimeout(()=>{
-      // Fill win card
+  if(tokens[pi].every(t => t.step === 57)){
+    gameOver = true; clearInterval(timerID);
+    setTimeout(() => {
       document.getElementById('w-trophy').textContent = EMOJIS[pi];
       document.getElementById('w-name').textContent = NAMES[pi];
       const badge = document.getElementById('w-color-badge');
@@ -350,29 +348,33 @@ function checkWin(pi){
   return false;
 }
 
-// ── DICE (with animation fix) ─────────────────────────
+// ── DICE ─────────────────────────────────────────────
 function diceClick(){
-  if(rolled||gameOver)return;
-  if(vsAI&&cur!==0)return;
-  const d=document.getElementById('dice');
-  if(d.classList.contains('off'))return;
-  d.classList.add('spin','off');playSound('roll');
-  let f=0;
-  const iv=setInterval(()=>{
-    showFace(Math.ceil(Math.random()*6));f++;
-    if(f>=6){
-      clearInterval(iv);d.classList.remove('spin','off');
-      const v=Math.ceil(Math.random()*6);
-      diceVal=v;rolled=true;showFace(v);
-      document.getElementById('dnum').textContent=v;
-      addLog(NAMES[cur]+': Dice = '+v+' 🎲',cur);
+  if(rolled || gameOver) return;
+  if(vsAI && cur !== 0) return;
+  const d = document.getElementById('dice');
+  if(d.classList.contains('off')) return;
+  d.classList.add('spin','off'); playSound('roll');
+  let f = 0;
+  const iv = setInterval(() => {
+    showFace(Math.ceil(Math.random()*6)); f++;
+    if(f >= 6){
+      clearInterval(iv); d.classList.remove('spin','off');
+      const v = Math.ceil(Math.random()*6);
+      diceVal = v; rolled = true; showFace(v);
+      document.getElementById('dnum').textContent = v;
+      addLog(NAMES[cur]+': Dice = '+v+' 🎲', cur);
       if(!anyCanMove(cur)){
-        addLog(NAMES[cur]+': no move— skip',cur);
+        addLog(NAMES[cur]+': no move— skip', cur);
         setStatus(NAMES[cur]+': '+v+' recieved, no move!');
-        rolled=false;
-        setTimeout(()=>{cur=(cur+1)%4;updatePanels();setStatus(NAMES[cur]+' chance!');resetTimer();render();if(vsAI&&cur!==0)setTimeout(()=>aiTurn(cur),800);},1200);
+        rolled = false;
+        setTimeout(() => {
+          cur = nextActivePlayer(cur);
+          updatePanels(); setStatus(NAMES[cur]+' chance!'); resetTimer(); render();
+          if(vsAI && cur !== 0) setTimeout(() => aiTurn(cur), 800);
+        }, 1200);
       } else {
-        setStatus(NAMES[cur]+': '+v+' recieved — choose Token!');render();
+        setStatus(NAMES[cur]+': '+v+' recieved — choose Token!'); render();
       }
     }
   }, 80);
@@ -395,7 +397,7 @@ function startTimer(){
     }
   }, 1000);
 }
-function resetTimer(){clearInterval(timerID);timerSec=30;updTimer();if(!gameOver)startTimer();}
+function resetTimer(){ clearInterval(timerID); timerSec = 30; updTimer(); if(!gameOver) startTimer(); }
 function updTimer(){
   const pct = (timerSec/30)*100;
   const f = document.getElementById('tfill');
@@ -416,14 +418,13 @@ function updatePanels(){
     document.getElementById('st'+i).textContent = 'Yard:'+y+' Done:'+d;
   }
 }
-function setStatus(m){document.getElementById('status').textContent=m;}
+function setStatus(m){ document.getElementById('status').textContent = m; }
 function addLog(m,pi){
   const l = document.getElementById('log');
   const d = document.createElement('div'); d.className = LCLS[pi]; d.textContent = m;
   l.insertBefore(d, l.firstChild);
   if(l.children.length > 25) l.removeChild(l.lastChild);
 }
-
 function clearLog(){
   document.getElementById('log').innerHTML = '';
   document.getElementById('dnum').textContent = '—';
@@ -455,8 +456,8 @@ function playSound(t){
   }catch(e){}
 }
 
-//Turn highlight on each Player's turn accordingly
-function animateTurnChange() {
+// ── TURN ANIMATION ────────────────────────────────────
+function animateTurnChange(){
   const panel = document.getElementById(PPIDS[cur]);
   panel.style.transition = "all 0.3s ease";
   panel.style.transform = "scale(1.08)";
@@ -464,11 +465,11 @@ function animateTurnChange() {
 }
 
 // Enter key on name inputs → start game
-document.querySelectorAll('.name-input').forEach((inp,i)=>{
-  inp.addEventListener('keydown',e=>{
-    if(e.key==='Enter'){
-      if(i<3)document.getElementById('n'+(i+1)).focus();
-      else startGame(false);
+document.querySelectorAll('.name-input').forEach((inp,i) => {
+  inp.addEventListener('keydown', e => {
+    if(e.key === 'Enter'){
+      if(i < selectedPlayerCount - 1) document.getElementById('n'+(i+1)).focus();
+      else startGame(false, selectedPlayerCount);
     }
   });
 });
