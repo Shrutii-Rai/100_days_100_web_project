@@ -35,7 +35,8 @@
 }
 
 .copy-btn:focus {
-    outline: none; /* Remove the focus outline to keep the design clean */
+    outline: 3px solid #ffffff;
+    outline-offset: 2px;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5); /* Optional: add a focus style that matches your design */
 }
 
