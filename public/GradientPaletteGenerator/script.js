@@ -30,6 +30,7 @@ const dom = {
   toast: document.getElementById("toast"),
   toastText: document.getElementById("toast-text"),
   toggleBtns: document.querySelectorAll(".toggle-btn"),
+  colorPicker: null,
   copyClipboard: document.getElementById("copy-clipboard"),
 };
 
@@ -178,9 +179,23 @@ const addColor = () => {
     showToast(`Maximum ${state.maxColors} colors allowed`);
     return;
   }
-  state.colors.push(randomColor());
-  renderColorStops();
-  updatePreview();
+
+  // open color picker
+  dom.colorPicker.click();
+
+  const handlePick = (e) => {
+    const color = e.target.value;
+
+    state.colors.push(color);
+    renderColorStops();
+    updatePreview();
+
+    showToast("Color added! 🎨");
+
+    dom.colorPicker.removeEventListener("input", handlePick);
+  };
+
+  dom.colorPicker.addEventListener("input", handlePick);
 };
 
 /**
@@ -473,6 +488,10 @@ const initListeners = () => {
   dom.btnSave.addEventListener("click", saveGradient);
   dom.btnAddColor.addEventListener("click", addColor);
   dom.btnClearAll.addEventListener("click", clearAllSaved);
+  dom.colorPicker = document.createElement("input");
+  dom.colorPicker.type = "color";
+  dom.colorPicker.style.display = "none";
+  document.body.appendChild(dom.colorPicker);
 
   // Keyboard shortcut: Space for random
   document.addEventListener("keydown", (e) => {
