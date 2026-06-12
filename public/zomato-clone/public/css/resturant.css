@@ -92,6 +92,23 @@
   pointer-events: none;
 }
 
+/* Offer banner — left half only, fades to transparent */
+.offer-banner {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 65%;                /* only half the card */
+  background: linear-gradient(90deg, rgba(26, 107, 74, 0.92) 60%, transparent 100%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 20px 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+  border-radius: 0 0 0 14px;
+}
 
 /* % circle icon */
 .offer-icon {
