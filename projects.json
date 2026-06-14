@@ -742,6 +742,18 @@
     "projectPath": "./public/Image-To-Text-App/index.html"
   },
   {
+    "projectNo": 64,
+    "projectName": "Zomato-clone",
+    "projectType": "Clone",
+    "projectDesc": "Restaurant platform inspired interface replicating browsing and discovery layouts.",
+    "techStack": [
+      "clone",
+      "css"
+    ],
+    "difficulty": "beginner",
+    "projectPath": "./public/zomato-clone/index.html"
+  },
+  {
     "projectNo": 65,
     "projectName": "The Cube",
     "projectType": "UI",
@@ -1045,6 +1057,17 @@
     ],
     "difficulty": "intermediate",
     "projectPath": "./public/N_Queen/index.html"
+  },
+  {
+    "projectNo": 90,
+    "projectName": "Quiz App Timer",
+    "projectType": "Tool",
+    "projectDesc": "Timed quiz application combining countdown logic with question handling.",
+    "techStack": [
+      "javascript"
+    ],
+    "difficulty": "beginner",
+    "projectPath": "./public/QuizeApp Timer/index1.html"
   },
   {
     "projectNo": 91,
@@ -2704,6 +2727,22 @@
     "projectPath": "./public/Runway-Calculator/index.html"
   },
   {
+    "projectNo": 217,
+    "projectName": "Gemini Clone",
+    "projectType": "AI",
+    "projectDesc": "A modern clone of the Google Gemini AI chatbot interface, integrated with Google's GenAI API for generating dynamic responses.",
+    "techStack": [
+      "react",
+      "javascript",
+      "html",
+      "css",
+      "api",
+      "vite"
+    ],
+    "difficulty": "advanced",
+    "projectPath": "./public/Gemini/dist/index.html"
+  },
+  {
     "projectNo": 218,
     "projectName": "SkillBridge Career Roadmap Explorer",
     "projectType": "Tool",
@@ -2812,6 +2851,34 @@
     "projectPath": "./public/Harry-Potter/index.html"
   },
   {
+    "projectNo": 226,
+    "projectName": "Mind Reader",
+    "projectType": "Game",
+    "projectDesc": "An interactive game where the Genie tries to read your mind and guess your character in 20 questions.",
+    "techStack": [
+      "react",
+      "html",
+      "css",
+      "javascript"
+    ],
+    "difficulty": "advanced",
+    "projectPath": "./public/mind-reader/mind-reader/dist/index.html"
+  },
+  {
+    "projectNo": 227,
+    "projectName": "Word Jumble",
+    "projectType": "Game",
+    "projectDesc": "A fun word puzzle game where players unscramble letters to form valid words within a time limit.",
+    "techStack": [
+      "html",
+      "css",
+      "javascript",
+      "game"
+    ],
+    "difficulty": "advanced",
+    "projectPath": "./public/Word_Jumble/index.html"
+  },
+  {
     "projectNo": 228,
     "projectName": "Beat Maker",
     "projectType": "Tool",
@@ -2840,5 +2907,6 @@
   "difficulty": "advanced",
   "projectPath": "./public/MEMO 2.0/index.html"
   }
+
 
 ]
