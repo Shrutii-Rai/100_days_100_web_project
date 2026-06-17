@@ -2920,5 +2920,19 @@
     ],
     "difficulty": "intermediate",
     "projectPath": "./public/UnitVerse/index.html"
+  },
+  
+  {
+    "projectNo": 1,
+    "projectName": "AI-Prompt-Optimizer",
+    "projectType": "Tool",
+    "projectDesc": "Analyze, score, and optimize AI prompts with smart suggestions.",
+    "techStack": [
+      "html",
+      "css",
+      "javascript"
+    ],
+    "difficulty": "advanced",
+    "projectPath": "./public/AI-Prompt-Optimizer/index.html"
   }
 ]
